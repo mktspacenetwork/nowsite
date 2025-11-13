@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -7,6 +8,7 @@ import QuemSomos from './components/pages/QuemSomos';
 import Contato from './components/pages/Contato';
 import SolucoesPage from './components/pages/SolucoesPage';
 import usePageMetadata from './hooks/usePageMetadata';
+import WhatsAppButton from './components/WhatsAppButton';
 
 export type Page = 'home' | 'quem-somos' | 'contato' | 'solucoes';
 
@@ -37,6 +39,7 @@ const App: React.FC = () => {
       </main>
       <Footer setCurrentPage={setCurrentPage}/>
       <ScrollToTopButton />
+      <WhatsAppButton />
     </div>
   );
 };

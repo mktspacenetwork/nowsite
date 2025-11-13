@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>Now Soluções - Smart Condominium Technology</title>
+  <title>Now Soluções | Mais controle, menos custos.</title>
   <meta name="description" content="Now Soluções: Especialistas em tecnologia para condomínios inteligentes. Oferecemos controle de acesso, monitoramento com IA, armários inteligentes e mais.">
   <meta name="keywords" content="condomínio inteligente, segurança condominial, controle de acesso, portaria remota, now soluções, tecnologia para condomínios">
   <script>
@@ -76,42 +76,32 @@
     .animate-fade-in-up {
       animation: fadeInUp 1s ease-out 0.3s forwards;
     }
-  </style>
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "Now Soluções",
-      "image": "https://i.ibb.co/nNgwS7QP/LogoNow.webp",
-      "@id": "",
-      "url": "https://nowsolucoes.com.br",
-      "telephone": "(11) 5283-5040",
-      "description": "Especialistas em tecnologia para condomínios inteligentes, oferecendo soluções de segurança, controle de acesso e gestão.",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Rua Antônio Nápoli, 229",
-        "addressLocality": "São Paulo",
-        "addressRegion": "SP",
-        "postalCode": "02987-030",
-        "addressCountry": "BR"
-      },
-      "sameAs": [
-        "https://www.facebook.com/nowsolucoes",
-        "https://www.instagram.com/nowsolucoes"
-      ] 
+    @keyframes subtle-pulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4);
+      }
+      70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 10px 10px rgba(37, 211, 102, 0);
+      }
     }
-    </script>
+    .animate-subtle-pulse {
+      animation: subtle-pulse 2s infinite;
+    }
+  </style>
 <script type="importmap">
 {
   "imports": {
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
     "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react": "https://aistudiocdn.com/react@^19.2.0"
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
   }
 }
 </script>
 </head>
-<body class="bg-background-light dark:bg-background-dark">
+<body>
   <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
 </body>
 </html>
