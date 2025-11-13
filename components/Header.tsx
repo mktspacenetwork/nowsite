@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Logo from './Logo';
 import ThemeToggle from './ThemeToggle';
 import { Page } from '../App';
@@ -8,10 +8,27 @@ interface HeaderProps {
     setCurrentPage: (page: Page) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ setCurrentPage }) => {
+const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isSolutionsOpen, setIsSolutionsOpen] = useState(false);
     const [isMobileSolutionsOpen, setIsMobileSolutionsOpen] = useState(false);
+    const [isSticky, setIsSticky] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 10) {
+                setIsSticky(true);
+            } else {
+                setIsSticky(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     const navLinks = [
         { page: 'home', label: 'Home' },
@@ -34,6 +51,9 @@ const Header: React.FC<HeaderProps> = ({ setCurrentPage }) => {
         setCurrentPage(page);
         setIsMenuOpen(false);
         setIsMobileSolutionsOpen(false);
+        if (page !== 'home') {
+            window.scrollTo(0, 0);
+        }
     };
 
     const handleMobileSolutionsToggle = (e: React.MouseEvent) => {
@@ -41,6 +61,9 @@ const Header: React.FC<HeaderProps> = ({ setCurrentPage }) => {
         setIsMobileSolutionsOpen(!isMobileSolutionsOpen);
     };
     
+    const navLinkClasses = (page: Page) => 
+        `hover:text-primary transition-colors ${currentPage === page ? 'text-primary' : ''}`;
+
     const renderDesktopNav = () => (
         <nav className="hidden lg:flex items-center space-x-10 text-base font-medium">
             {navLinks.map((link) => {
@@ -52,7 +75,7 @@ const Header: React.FC<HeaderProps> = ({ setCurrentPage }) => {
                             onMouseEnter={() => setIsSolutionsOpen(true)}
                             onMouseLeave={() => setIsSolutionsOpen(false)}
                         >
-                            <button className="flex items-center hover:text-primary transition-colors" onClick={(e) => handleNavClick(e, link.page as Page)}>
+                            <button className={`flex items-center ${navLinkClasses(link.page as Page)}`} onClick={(e) => handleNavClick(e, link.page as Page)}>
                                 {link.label}
                                 <span className={`material-icons-outlined text-base ml-1 transition-transform duration-300 ${isSolutionsOpen ? 'rotate-180' : ''}`}>{link.icon}</span>
                             </button>
@@ -73,7 +96,7 @@ const Header: React.FC<HeaderProps> = ({ setCurrentPage }) => {
                     );
                 }
                 return (
-                    <button key={link.label} className="flex items-center hover:text-primary transition-colors" onClick={(e) => handleNavClick(e, link.page as Page)}>
+                    <button key={link.label} className={`flex items-center ${navLinkClasses(link.page as Page)}`} onClick={(e) => handleNavClick(e, link.page as Page)}>
                         {link.label}
                         {link.icon && <span className="material-icons-outlined text-base ml-1">{link.icon}</span>}
                     </button>
@@ -83,43 +106,54 @@ const Header: React.FC<HeaderProps> = ({ setCurrentPage }) => {
     );
 
     const renderMobileNav = () => (
-        <nav className="flex flex-col items-center space-y-6 text-white text-lg">
-            {navLinks.map((link) => {
-                if (link.label === 'Nossas Soluções') {
-                    return (
-                        <div key={link.label} className="flex flex-col items-center">
-                            <button className="flex items-center hover:text-primary transition-colors" onClick={handleMobileSolutionsToggle}>
-                                {link.label}
-                                <span className={`material-icons-outlined text-base ml-1 transition-transform duration-300 ${isMobileSolutionsOpen ? 'rotate-180' : ''}`}>{link.icon}</span>
-                            </button>
-                            {isMobileSolutionsOpen && (
-                                <div className="flex flex-col items-center space-y-4 mt-4 text-base bg-white/5 rounded-lg py-4 px-8">
-                                     {solutionsSubMenu.map(subLink => (
-                                        <button 
-                                            key={subLink.label} 
-                                            onClick={(e) => handleNavClick(e, subLink.page as Page)}
-                                            className="hover:text-primary transition-colors"
-                                        >
-                                            {subLink.label}
-                                        </button>
-                                    ))}
+        <div className={`transition-all duration-300 ease-in-out overflow-hidden ${isMenuOpen ? 'max-h-screen' : 'max-h-0'}`}>
+            <nav className="flex flex-col items-center space-y-6 text-white text-lg pt-24 pb-8">
+                {navLinks.map((link) => {
+                    if (link.label === 'Nossas Soluções') {
+                        return (
+                            <div key={link.label} className="flex flex-col items-center w-full">
+                                <button className="flex items-center hover:text-primary transition-colors" onClick={handleMobileSolutionsToggle}>
+                                    {link.label}
+                                    <span className={`material-icons-outlined text-base ml-1 transition-transform duration-300 ${isMobileSolutionsOpen ? 'rotate-180' : ''}`}>{link.icon}</span>
+                                </button>
+                                <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isMobileSolutionsOpen ? 'max-h-96 mt-4' : 'max-h-0'}`}>
+                                    <div className="flex flex-col items-center space-y-4 text-base bg-white/5 rounded-lg py-4 px-8">
+                                         {solutionsSubMenu.map(subLink => (
+                                            <button 
+                                                key={subLink.label} 
+                                                onClick={(e) => handleNavClick(e, subLink.page as Page)}
+                                                className="hover:text-primary transition-colors"
+                                            >
+                                                {subLink.label}
+                                            </button>
+                                        ))}
+                                    </div>
                                 </div>
-                            )}
-                        </div>
+                            </div>
+                        );
+                    }
+                    return (
+                         <button key={link.label} className="flex items-center hover:text-primary transition-colors" onClick={(e) => handleNavClick(e, link.page as Page)}>
+                            {link.label}
+                        </button>
                     );
-                }
-                return (
-                     <button key={link.label} className="flex items-center hover:text-primary transition-colors" onClick={(e) => handleNavClick(e, link.page as Page)}>
-                        {link.label}
-                    </button>
-                );
-            })}
-        </nav>
+                })}
+                <a className="bg-primary text-white px-8 py-3 rounded-full font-medium transition-all active:scale-95 hover:brightness-95 transform hover:scale-105" href="#" onClick={() => setIsMenuOpen(false)}>Pedir Orçamento</a>
+            </nav>
+        </div>
     );
 
+    const headerClasses = `
+        top-0 left-0 right-0 z-20 transition-all duration-300
+        ${isSticky 
+            ? 'fixed bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm shadow-md text-text-light-primary dark:text-text-dark-primary' 
+            : 'absolute bg-transparent text-white'
+        }
+    `;
+
     return (
-        <header className="absolute top-0 left-0 right-0 z-20 bg-transparent text-white">
-            <div className="container mx-auto px-6 py-6 flex justify-between items-center">
+        <header className={headerClasses}>
+            <div className="container mx-auto px-6 py-4 flex justify-between items-center">
                 <div className="flex items-center">
                     <button onClick={(e) => handleNavClick(e, 'home')}><Logo /></button>
                 </div>
@@ -132,16 +166,15 @@ const Header: React.FC<HeaderProps> = ({ setCurrentPage }) => {
                 </div>
                 <div className="lg:hidden flex items-center space-x-2">
                     <ThemeToggle />
-                    <button className="text-white z-30" onClick={() => { setIsMenuOpen(!isMenuOpen); if (isMenuOpen) setIsMobileSolutionsOpen(false);}}>
+                    <button className="z-30" onClick={() => { setIsMenuOpen(!isMenuOpen); if (isMenuOpen) setIsMobileSolutionsOpen(false);}}>
                         <span className="material-icons-outlined">{isMenuOpen ? 'close' : 'menu'}</span>
                     </button>
                 </div>
             </div>
             {/* Mobile Menu */}
             <div className={`lg:hidden fixed inset-0 bg-background-dark/95 backdrop-blur-sm transition-opacity duration-300 ${isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-                <div className="container mx-auto px-6 pt-24 flex flex-col items-center text-center">
+                <div className="container mx-auto px-6">
                      {renderMobileNav()}
-                    <a className="mt-8 bg-primary text-white px-8 py-3 rounded-full font-medium transition-all active:scale-95 hover:brightness-95 transform hover:scale-105" href="#" onClick={() => setIsMenuOpen(false)}>Pedir Orçamento</a>
                 </div>
             </div>
         </header>
