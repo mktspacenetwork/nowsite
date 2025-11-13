@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html class="scroll-smooth dark" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Now Soluções - Smart Condominium Technology</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#3979aa",
+            "background-light": "#f6f7f8",
+            "background-dark": "#121720",
+            "background-darker": "#0D1117",
+            "surface-light": "#f3f4f6",
+            "surface-dark": "#1f2937",
+            "text-light-primary": "#111827",
+            "text-dark-primary": "#f9fafb",
+            "text-light-secondary": "#4b5563",
+            "text-dark-secondary": "#d1d5db"
+          },
+          fontFamily: {
+            display: "Space Grotesk"
+          },
+          borderRadius: {
+            DEFAULT: "0.5rem",
+            lg: "1rem",
+            xl: "1.5rem",
+            full: "9999px"
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    .cta-bg {
+      background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://picsum.photos/seed/office-view/1920/1080');
+      background-size: cover;
+      background-position: center;
+    }
+    @keyframes scroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    .animate-scroll {
+      animation: scroll 40s linear infinite;
+    }
+     @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in-down {
+      animation: fadeInDown 1s ease-out forwards;
+    }
+    .animate-fade-in-up {
+      animation: fadeInUp 1s ease-out 0.3s forwards;
+    }
+  </style>
+<script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0"
+  }
+}
+</script>
+</head>
+<body class="bg-background-light dark:bg-background-dark">
+  <div id="root"></div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+import React, { useRef } from 'react';
+import useOnScreen from '../hooks/useOnScreen';
+
+const CTA: React.FC = () => {
+    const sectionRef = useRef<HTMLDivElement>(null);
+    const isVisible = useOnScreen(sectionRef, { threshold: 0.3 });
+
+    return (
+        <section className="cta-bg py-24">
+            <div className="container mx-auto px-6 flex justify-center lg:justify-start">
+                <div 
+                    ref={sectionRef}
+                    className={`bg-background-light dark:bg-background-dark p-12 rounded-lg max-w-xl text-left transition-all duration-1000 ease-out transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                >
+                    <h2 className="text-4xl md:text-5xl font-bold text-text-light-primary dark:text-text-dark-primary mb-4">Excelência em cada detalhe</h2>
+                    <p className="text-text-light-secondary dark:text-text-dark-secondary mb-8">Nosso compromisso é entregar soluções que funcionam de verdade. Com tecnologia de ponta, equipe especializada e suporte contínuo, oferecemos uma experiência de gestão condominial segura, fluida e eficiente.</p>
+                    <a 
+                        className={`inline-block bg-primary text-white px-8 py-3 rounded-full font-medium hover:brightness-95 transition-all duration-700 ease-out transform hover:scale-105 active:scale-95 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}
+                        href="#"
+                        style={{ transitionDelay: '300ms' }}
+                    >
+                        Fale com um especialista
+                    </a>
+                </div>
+            </div>
+        </section>
+    );
+};
+
+export default CTA;
