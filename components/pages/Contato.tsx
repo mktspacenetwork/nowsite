@@ -1,10 +1,51 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import useOnScreen from '../../hooks/useOnScreen';
+
+type SubmissionStatus = 'idle' | 'loading' | 'success' | 'error';
 
 const Contato: React.FC = () => {
     const formRef = useRef<HTMLDivElement>(null);
     const infoRef = useRef<HTMLDivElement>(null);
     const isVisible = useOnScreen(formRef, { threshold: 0.1 });
+    
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        subject: '',
+        message: '',
+    });
+    const [status, setStatus] = useState<SubmissionStatus>('idle');
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setStatus('loading');
+
+        try {
+            const response = await fetch('https://formspree.io/f/mblqlygv', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                setStatus('success');
+                setFormData({ name: '', email: '', subject: '', message: '' });
+            } else {
+                setStatus('error');
+            }
+        } catch (error) {
+            console.error("Form submission error:", error);
+            setStatus('error');
+        }
+    };
 
     return (
         <>
@@ -22,28 +63,34 @@ const Contato: React.FC = () => {
                         <div ref={formRef} className={`transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                             <h2 className="text-3xl font-bold text-text-light-primary dark:text-text-dark-primary mb-2">Envie uma mensagem</h2>
                             <p className="text-text-light-secondary dark:text-text-dark-secondary mb-8">Preencha o formulário e entraremos em contato o mais breve possível.</p>
-                            <form className="space-y-6">
+                            <form className="space-y-6" onSubmit={handleSubmit}>
                                 <div>
                                     <label htmlFor="name" className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-2">Nome</label>
-                                    <input type="text" name="name" id="name" required className="w-full px-4 py-3 bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 rounded-md focus:ring-primary focus:border-primary transition" />
+                                    <input type="text" name="name" id="name" required className="w-full px-4 py-3 bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 rounded-md focus:ring-primary focus:border-primary transition" value={formData.name} onChange={handleInputChange} />
                                 </div>
                                 <div>
                                     <label htmlFor="email" className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-2">Email</label>
-                                    <input type="email" name="email" id="email" required className="w-full px-4 py-3 bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 rounded-md focus:ring-primary focus:border-primary transition" />
+                                    <input type="email" name="email" id="email" required className="w-full px-4 py-3 bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 rounded-md focus:ring-primary focus:border-primary transition" value={formData.email} onChange={handleInputChange} />
                                 </div>
                                 <div>
                                     <label htmlFor="subject" className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-2">Assunto</label>
-                                    <input type="text" name="subject" id="subject" required className="w-full px-4 py-3 bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 rounded-md focus:ring-primary focus:border-primary transition" />
+                                    <input type="text" name="subject" id="subject" required className="w-full px-4 py-3 bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 rounded-md focus:ring-primary focus:border-primary transition" value={formData.subject} onChange={handleInputChange} />
                                 </div>
                                 <div>
                                     <label htmlFor="message" className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-2">Mensagem</label>
-                                    <textarea name="message" id="message" rows={5} required className="w-full px-4 py-3 bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 rounded-md focus:ring-primary focus:border-primary transition"></textarea>
+                                    <textarea name="message" id="message" rows={5} required className="w-full px-4 py-3 bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 rounded-md focus:ring-primary focus:border-primary transition" value={formData.message} onChange={handleInputChange}></textarea>
                                 </div>
                                 <div>
-                                    <button type="submit" className="w-full bg-primary text-white px-8 py-3 rounded-full text-base font-medium transition-all active:scale-95 hover:brightness-95 transform hover:scale-105">
-                                        Enviar Mensagem
+                                    <button type="submit" className="w-full bg-primary text-white px-8 py-3 rounded-full text-base font-medium transition-all active:scale-95 hover:brightness-95 transform hover:scale-105 disabled:opacity-75 disabled:cursor-not-allowed" disabled={status === 'loading'}>
+                                        {status === 'loading' ? 'Enviando...' : 'Enviar Mensagem'}
                                     </button>
                                 </div>
+                                {status === 'success' && (
+                                    <p className="text-green-600 dark:text-green-500 font-medium text-center">Mensagem enviada com sucesso! Agradecemos o seu contato.</p>
+                                )}
+                                {status === 'error' && (
+                                    <p className="text-red-600 dark:text-red-500 font-medium text-center">Ocorreu um erro ao enviar a mensagem. Por favor, tente novamente.</p>
+                                )}
                             </form>
                         </div>
 
