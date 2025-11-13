@@ -3,8 +3,9 @@ import useOnScreen from '../hooks/useOnScreen';
 
 const StatCounter: React.FC<{ value: string; isVisible: boolean }> = ({ value, isVisible }) => {
     const [count, setCount] = useState(0);
-    const target = parseInt(value.match(/\d+/)?.[0] || '0', 10);
-    const suffix = value.match(/[^\d.]+/)?.[0] || '';
+    const target = parseInt(value.replace(/[^\d]/g, '') || '0', 10);
+    const prefix = value.match(/^[^\d]*/)?.[0] || '';
+    const suffix = value.match(/[^\d]*$/)?.[0] || '';
     
     useEffect(() => {
         if (isVisible) {
@@ -27,7 +28,7 @@ const StatCounter: React.FC<{ value: string; isVisible: boolean }> = ({ value, i
     }, [isVisible, target]);
 
     return (
-        <p className="text-5xl font-bold text-primary">{count}{suffix}</p>
+        <p className="text-5xl font-bold text-primary">{prefix}{count}{suffix}</p>
     );
 };
 
@@ -37,10 +38,10 @@ const Impact: React.FC = () => {
     const isVisible = useOnScreen(sectionRef, { threshold: 0.1 });
 
     const stats = [
-        { value: "80+", label: "Condomínios atendidos" },
-        { value: "15+", label: "anos de experiência" },
-        { value: "15+", label: "mil moradores impactados" },
-        { value: "98%", label: "de satisfação entre síndicos e administradoras" }
+        { value: "+80", label: "Condomínios atendidos" },
+        { value: "+15", label: "Anos de Experiência de Mercado" },
+        { value: "+15k", label: "Moradores Impactados" },
+        { value: "98%", label: "Satisfação entre síndicos" }
     ];
 
     return (

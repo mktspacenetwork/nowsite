@@ -1,26 +1,37 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import Header from './components/Header';
-import Hero from './components/Hero';
-import Impact from './components/Impact';
-import Solutions from './components/Solutions';
-import About from './components/About';
-import CTA from './components/CTA';
-import Testimonials from './components/Testimonials';
 import Footer from './components/Footer';
 import ScrollToTopButton from './components/ScrollToTopButton';
+import HomePage from './components/pages/HomePage';
+import QuemSomos from './components/pages/QuemSomos';
+import Contato from './components/pages/Contato';
+import SolucoesPage from './components/pages/SolucoesPage';
+
+export type Page = 'home' | 'quem-somos' | 'contato' | 'solucoes';
 
 const App: React.FC = () => {
+  const [currentPage, setCurrentPage] = useState<Page>('home');
+
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'home':
+        return <HomePage />;
+      case 'quem-somos':
+        return <QuemSomos />;
+      case 'contato':
+        return <Contato />;
+      case 'solucoes':
+        return <SolucoesPage />;
+      default:
+        return <HomePage />;
+    }
+  };
+
   return (
     <div className="font-display text-text-light-primary dark:text-text-dark-primary">
-      <Header />
+      <Header currentPage={currentPage} setCurrentPage={setCurrentPage} />
       <main>
-        <Hero />
-        <Impact />
-        <Solutions />
-        <About />
-        <CTA />
-        <Testimonials />
+        {renderPage()}
       </main>
       <Footer />
       <ScrollToTopButton />

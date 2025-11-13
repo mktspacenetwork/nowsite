@@ -2,17 +2,17 @@ import React, { useState, useEffect, useRef } from 'react';
 
 const slides = [
     {
-        bgImage: "https://images.pexels.com/photos/5474628/pexels-photo-5474628.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+        bgImage: "https://i.ibb.co/SwX34ZgQ/freepik-crie-a-imagem-dos-dois-homens-que-esto-na-img2eles-86008.png",
         title: <>Câmeras com inteligência<br/>artificial</>,
         subtitle: "Com a Now Soluções, seu condomínio conta com câmeras inteligentes que identificam movimentações, acionam sensores e criam barreiras virtuais. Mais precisão, mais proteção, menos preocupações."
     },
     {
-        bgImage: "https://images.pexels.com/photos/430205/pexels-photo-430205.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+        bgImage: "https://i.ibb.co/TDWhWRWP/freepik-skyline-da-cidade-de-so-paulo-ao-anoitecer-captura-86021.jpg",
         title: <>Acesso Inteligente<br/>e Descomplicado</>,
         subtitle: "Controle facial, QR Code e reconhecimento veicular. Ofereça segurança e praticidade para moradores e visitantes com a mais alta tecnologia."
     },
     {
-        bgImage: "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+        bgImage: "https://i.ibb.co/Qv4BxXn0/freepik-crie-a-imagem-dos-dois-homens-que-esto-na-img2eles-86013.jpg",
         title: <>Gestão Completa<br/>na Palma da Mão</>,
         subtitle: "Nosso aplicativo centraliza todas as funcionalidades, desde a liberação de visitantes até a reserva de áreas comuns. Gestão eficiente e transparente."
     }

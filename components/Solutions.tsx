@@ -29,21 +29,21 @@ const Solutions: React.FC = () => {
 
     const solutionsData = [
         {
-            imgSrc: "https://lh3.googleusercontent.com/aida-public/AB6AXuB52M7znmWPk_FjXEd3_7WHHM9PUlXIvMk2DOftOOF60h_ffCTeE9yG8ApWC9sRYJqWQlAGljkh16zbbtR_UtW6mp4n327vuNCfxHEPZjnTtf-UH-STbPcyC891hVY-nYJ09lvANbuelxYnv7vn1AILdcYsDjRfoABCqCwoW-layWKyA6EiN4Q-3oLWhc50Q8jAWMiKBOZGT9gGZZ2rGi9A5cMT6nxprZThBIkB1WqR8rXmyFdKOM_ZNjqJBZi9NkkMcuU6kd0RsA",
+            imgSrc: "https://i.ibb.co/39MF8P7G/freepik-imagem-realista-e-profissional-mostrando-um-morado-86018.png",
             imgAlt: "Man using facial recognition for intelligent access",
             icon: "key",
             title: "Acesso Inteligente",
             description: "Controle facial, QR Code, convites digitais, reconhecimento veicular e liberação remota via app."
         },
         {
-            imgSrc: "https://lh3.googleusercontent.com/aida-public/AB6AXuBKSGjnkVLkBLauWsW-UB6FCBHpsI4EWxF1K1FATxE071Q6iD9MP6O2OQOQOVIzEl63KvrlteXbOi1dA02FfQgniyKriEPc66DGXTlh30PLKgM2mJQ_KYzK-MXuu3tRdlTZzEKUMxyk9ZBEMe05kIxqILJreHJWN42Snz3993g-o35FNN0vQ2e4hAJxdGPV8zChFltic2Vhd7Yb68G796jRPtLNVdBSGiQG2ozHaeEvUqug9Ts7yCLx0EO0AANhL4xUCo7ZVotOVg",
+            imgSrc: "https://i.ibb.co/67MBK6JC/freepik-cena-realista-em-alta-definio-mostrando-a-fachada-86017.jpg",
             imgAlt: "AI monitoring identifying people in a crowd",
             icon: "shield",
             title: "Monitoramento IA",
             description: "Câmeras com inteligência artificial, cercas virtuais, alarmes sonoros e sensores com análise de comportamento."
         },
         {
-            imgSrc: "https://lh3.googleusercontent.com/aida-public/AB6AXuDMjqXV6BtZ9urIGSaGpyhfMQdzRyM-ZEBFZqOg5Aby8hmNJQk9nRXzRWf0NqjiU4Iz5NJLnDeTWfRGVmjOzI5JXBG88kSYACb7WliYEiecjvq1c3RaOrN8EeRmQfwE0KwfZxZ55XK8GGyEVEAQPW8CGNkCIii99XrJmpBYNqclpPo7jhiqhckGssMdQyBKhK3kHcyb4C8RIhTDOPlpPfT2vbRv7TUXFYTzIX_m9nnbyimDTm6rmLqfxXviA_Gw4Xvx6m4vZLGr6Q",
+            imgSrc: "https://i.ibb.co/LX2zzPDz/freepik-crie-uma-foto-de-uma-mulher-brasileira-de-aproxima-86016.jpg",
             imgAlt: "Smart lockers in a condominium lobby",
             icon: "inventory_2",
             title: "Armários Inteligentes",
