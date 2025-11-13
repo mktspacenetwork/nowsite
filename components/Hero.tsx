@@ -1,24 +1,27 @@
 import React, { useState, useEffect, useRef } from 'react';
-
-const slides = [
-    {
-        bgImage: "https://i.ibb.co/SwX34ZgQ/freepik-crie-a-imagem-dos-dois-homens-que-esto-na-img2eles-86008.png",
-        title: <>Câmeras com inteligência<br/>artificial</>,
-        subtitle: "Com a Now Soluções, seu condomínio conta com câmeras inteligentes que identificam movimentações, acionam sensores e criam barreiras virtuais. Mais precisão, mais proteção, menos preocupações."
-    },
-    {
-        bgImage: "https://i.ibb.co/TDWhWRWP/freepik-skyline-da-cidade-de-so-paulo-ao-anoitecer-captura-86021.jpg",
-        title: <>Acesso Inteligente<br/>e Descomplicado</>,
-        subtitle: "Controle facial, QR Code e reconhecimento veicular. Ofereça segurança e praticidade para moradores e visitantes com a mais alta tecnologia."
-    },
-    {
-        bgImage: "https://i.ibb.co/Qv4BxXn0/freepik-crie-a-imagem-dos-dois-homens-que-esto-na-img2eles-86013.jpg",
-        title: <>Gestão Completa<br/>na Palma da Mão</>,
-        subtitle: "Nosso aplicativo centraliza todas as funcionalidades, desde a liberação de visitantes até a reserva de áreas comuns. Gestão eficiente e transparente."
-    }
-];
+import { useLanguage } from '../contexts/LanguageContext';
 
 const Hero: React.FC = () => {
+    const { t } = useLanguage();
+    
+    const slides = [
+        {
+            bgImage: "https://i.ibb.co/LzKGYzNG/now-smart-lock.jpg",
+            title: t('hero.slide1.title'),
+            subtitle: t('hero.slide1.subtitle')
+        },
+        {
+            bgImage: "https://i.ibb.co/ZRmPXv0y/portaria-now.jpg",
+            title: t('hero.slide2.title'),
+            subtitle: t('hero.slide2.subtitle')
+        },
+        {
+            bgImage: "https://i.ibb.co/zThc9bhk/app-now.jpg",
+            title: t('hero.slide3.title'),
+            subtitle: t('hero.slide3.subtitle')
+        }
+    ];
+
     const [currentIndex, setCurrentIndex] = useState(0);
     const timerRef = useRef<number | null>(null);
     const sectionRef = useRef<HTMLElement>(null);
@@ -94,14 +97,14 @@ const Hero: React.FC = () => {
                             <div key={index} className={`transition-opacity duration-1000 ease-in-out ${index === currentIndex ? 'opacity-100' : 'opacity-0 absolute'}`}>
                                  {index === currentIndex && (
                                     <>
-                                        <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-4 animate-fade-in-down">{slide.title}</h1>
+                                        <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-4 animate-fade-in-down" dangerouslySetInnerHTML={{ __html: slide.title }}></h1>
                                         <p className="max-w-2xl mx-auto text-lg text-gray-200 mb-8 animate-fade-in-up">{slide.subtitle}</p>
                                     </>
                                  )}
                             </div>
                         ))}
                     </div>
-                     <a className="bg-primary text-white px-8 py-4 rounded-full font-medium transition-all mt-4 hover:brightness-95 transform hover:scale-105 active:scale-95" href="#">Fale com um especialista</a>
+                     <a className="bg-primary text-white px-8 py-4 rounded-full font-medium transition-all mt-4 hover:brightness-95 transform hover:scale-105 active:scale-95" href="https://wa.me/551152835040" target="_blank" rel="noopener noreferrer">{t('hero.cta')}</a>
                  </div>
                  
                  {/* Navigation Dots */}

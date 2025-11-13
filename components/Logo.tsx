@@ -4,7 +4,7 @@ interface LogoProps {
   className?: string;
 }
 
-const logoUrl = "https://nowsolucoes.com.br/wp-content/uploads/2025/05/cropped-now_branco-1-180x57.webp";
+const logoUrl = "https://i.ibb.co/nNgwS7QP/LogoNow.webp";
 
 const Logo: React.FC<LogoProps> = ({ className = 'h-8 w-auto' }) => (
     <img 

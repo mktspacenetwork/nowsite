@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Logo from './Logo';
 import ThemeToggle from './ThemeToggle';
 import { Page } from '../App';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface HeaderProps {
     currentPage: Page;
@@ -9,6 +10,7 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage }) => {
+    const { t } = useLanguage();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isSolutionsOpen, setIsSolutionsOpen] = useState(false);
     const [isMobileSolutionsOpen, setIsMobileSolutionsOpen] = useState(false);
@@ -31,19 +33,19 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage }) => {
     }, []);
 
     const navLinks = [
-        { page: 'home', label: 'Home' },
-        { page: 'home', label: 'Condomínio inteligente' },
-        { page: 'solucoes', label: 'Nossas Soluções', icon: 'expand_more' },
-        { page: 'quem-somos', label: 'Quem Somos' },
-        { page: 'contato', label: 'Contato' },
+        { page: 'home', label: t('nav.home') },
+        { page: 'home', label: t('nav.smartCondo') },
+        { page: 'solucoes', label: t('nav.solutions'), icon: 'expand_more' },
+        { page: 'quem-somos', label: t('nav.about') },
+        { page: 'contato', label: t('nav.contact') },
     ];
     
     const solutionsSubMenu = [
-        { page: 'solucoes', label: 'Área de Acesso' },
-        { page: 'solucoes', label: 'Área Externa' },
-        { page: 'solucoes', label: 'Área Interna' },
-        { page: 'solucoes', label: 'Facilities' },
-        { page: 'solucoes', label: 'Soluções sob medida' },
+        { page: 'solucoes', label: t('solutionsSub.access') },
+        { page: 'solucoes', label: t('solutionsSub.external') },
+        { page: 'solucoes', label: t('solutionsSub.internal') },
+        { page: 'solucoes', label: t('solutionsSub.facilities') },
+        { page: 'solucoes', label: t('solutionsSub.custom') },
     ];
 
     const handleNavClick = (e: React.MouseEvent, page: Page) => {
@@ -67,11 +69,11 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage }) => {
     const renderDesktopNav = () => (
         <nav className="hidden lg:flex items-center space-x-10 text-base font-medium">
             {navLinks.map((link) => {
-                if (link.label === 'Nossas Soluções') {
+                if (link.label === t('nav.solutions')) {
                     return (
                         <div 
                             key={link.label}
-                            className="relative"
+                            className="relative pb-2 -mb-2"
                             onMouseEnter={() => setIsSolutionsOpen(true)}
                             onMouseLeave={() => setIsSolutionsOpen(false)}
                         >
@@ -80,7 +82,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage }) => {
                                 <span className={`material-icons-outlined text-base ml-1 transition-transform duration-300 ${isSolutionsOpen ? 'rotate-180' : ''}`}>{link.icon}</span>
                             </button>
                             {isSolutionsOpen && (
-                                <div className="absolute top-full mt-2 w-56 bg-white dark:bg-surface-dark rounded-md shadow-lg py-2 text-left animate-fade-in-down" style={{animationDuration: '300ms'}}>
+                                <div className="absolute top-full w-56 bg-white dark:bg-surface-dark rounded-md shadow-lg py-2 text-left animate-fade-in-down" style={{animationDuration: '300ms'}}>
                                     {solutionsSubMenu.map(subLink => (
                                         <button 
                                             key={subLink.label} 
@@ -109,7 +111,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage }) => {
         <div className={`transition-all duration-300 ease-in-out overflow-hidden ${isMenuOpen ? 'max-h-screen' : 'max-h-0'}`}>
             <nav className="flex flex-col items-center space-y-6 text-white text-lg pt-24 pb-8">
                 {navLinks.map((link) => {
-                    if (link.label === 'Nossas Soluções') {
+                    if (link.label === t('nav.solutions')) {
                         return (
                             <div key={link.label} className="flex flex-col items-center w-full">
                                 <button className="flex items-center hover:text-primary transition-colors" onClick={handleMobileSolutionsToggle}>
@@ -138,7 +140,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage }) => {
                         </button>
                     );
                 })}
-                <a className="bg-primary text-white px-8 py-3 rounded-full font-medium transition-all active:scale-95 hover:brightness-95 transform hover:scale-105" href="#" onClick={() => setIsMenuOpen(false)}>Pedir Orçamento</a>
+                <a className="bg-primary text-white px-8 py-3 rounded-full font-medium transition-all active:scale-95 hover:brightness-95 transform hover:scale-105" href="https://wa.me/551152835040" target="_blank" rel="noopener noreferrer" onClick={() => setIsMenuOpen(false)}>{t('header.cta')}</a>
             </nav>
         </div>
     );
@@ -162,7 +164,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage }) => {
                 
                 <div className="hidden lg:flex items-center space-x-4">
                     <ThemeToggle />
-                    <a className="bg-primary text-white px-8 py-3 rounded-full text-base font-medium transition-all active:scale-95 hover:brightness-95 transform hover:scale-105" href="#">Pedir Orçamento</a>
+                    <a className="bg-primary text-white px-8 py-3 rounded-full text-base font-medium transition-all active:scale-95 hover:brightness-95 transform hover:scale-105" href="https://wa.me/551152835040" target="_blank" rel="noopener noreferrer">{t('header.cta')}</a>
                 </div>
                 <div className="lg:hidden flex items-center space-x-2">
                     <ThemeToggle />

@@ -1,50 +1,51 @@
 import React, { useRef } from 'react';
 import useOnScreen from '../../hooks/useOnScreen';
-
-const solutions = [
-    {
-        icon: 'key',
-        title: 'Área de Acesso',
-        description: 'Soluções completas para controle de entrada e saída, incluindo reconhecimento facial, QR Code, convites digitais e integração com portaria remota para máxima segurança e conveniência.',
-        imgSrc: 'https://i.ibb.co/39MF8P7G/freepik-imagem-realista-e-profissional-mostrando-um-morado-86018.png'
-    },
-    {
-        icon: 'public',
-        title: 'Área Externa',
-        description: 'Monitoramento perimetral com câmeras de alta definição, cercas virtuais com inteligência artificial, alarmes sonoros e sensores de movimento para proteger o condomínio de ponta a ponta.',
-        imgSrc: 'https://i.ibb.co/67MBK6JC/freepik-cena-realista-em-alta-definio-mostrando-a-fachada-86017.jpg'
-    },
-    {
-        icon: 'meeting_room',
-        title: 'Área Interna',
-        description: 'Controle de acesso para áreas comuns como academias, salões de festas e piscinas. Garanta que apenas moradores autorizados utilizem os espaços, com relatórios de uso e agendamento via app.',
-        imgSrc: 'https://images.unsplash.com/photo-1556761175-b413da4b248a?auto=format&fit=crop&q=80'
-    },
-    {
-        icon: 'engineering',
-        title: 'Facilities',
-        description: 'Otimização da gestão de facilities com sistemas de automação para iluminação, controle de bombas de água e gerenciamento de manutenções preventivas, reduzindo custos e aumentando a eficiência.',
-        imgSrc: 'https://images.unsplash.com/photo-1542621334-a254cf47763b?auto=format&fit=crop&q=80'
-    },
-    {
-        icon: 'design_services',
-        title: 'Soluções sob medida',
-        description: 'Entendemos que cada condomínio é único. Desenvolvemos projetos personalizados que integram diferentes tecnologias para atender às suas necessidades específicas de segurança e gestão.',
-        imgSrc: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80'
-    }
-];
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const SolucoesPage: React.FC = () => {
+    const { t } = useLanguage();
     const pageRef = useRef<HTMLDivElement>(null);
-    // Fix: Removed invalid 'triggerOnce' property from IntersectionObserverInit options.
     const isVisible = useOnScreen(pageRef, { threshold: 0.05 });
+
+    const solutions = [
+        {
+            icon: 'key',
+            title: t('solucoesPage.s1.title'),
+            description: t('solucoesPage.s1.description'),
+            imgSrc: 'https://i.ibb.co/wr7JMf8N/freepik-crie-a-imagem-dos-dois-homens-que-esto-na-img2eles-86011.png'
+        },
+        {
+            icon: 'public',
+            title: t('solucoesPage.s2.title'),
+            description: t('solucoesPage.s2.description'),
+            imgSrc: 'https://i.ibb.co/SwX34ZgQ/freepik-crie-a-imagem-dos-dois-homens-que-esto-na-img2eles-86008.png'
+        },
+        {
+            icon: 'meeting_room',
+            title: t('solucoesPage.s3.title'),
+            description: t('solucoesPage.s3.description'),
+            imgSrc: 'https://i.ibb.co/39MF8P7G/freepik-imagem-realista-e-profissional-mostrando-um-morado-86018.png'
+        },
+        {
+            icon: 'engineering',
+            title: t('solucoesPage.s4.title'),
+            description: t('solucoesPage.s4.description'),
+            imgSrc: 'https://i.ibb.co/67MBK6JC/freepik-cena-realista-em-alta-definio-mostrando-a-fachada-86017.jpg'
+        },
+        {
+            icon: 'design_services',
+            title: t('solucoesPage.s5.title'),
+            description: t('solucoesPage.s5.description'),
+            imgSrc: 'https://i.ibb.co/Qv4BxXn0/freepik-crie-a-imagem-dos-dois-homens-que-esto-na-img2eles-86013.jpg'
+        }
+    ];
 
     return (
         <div ref={pageRef}>
-            <section className="relative h-[60vh] min-h-[450px] bg-cover bg-center text-white flex items-center justify-center text-center" style={{ backgroundImage: "linear-gradient(rgba(18,23,32,0.7), rgba(18,23,32,0.7)), url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80')" }}>
+            <section className="relative h-[60vh] min-h-[450px] bg-cover bg-center text-white flex items-center justify-center text-center" style={{ backgroundImage: "linear-gradient(rgba(18,23,32,0.7), rgba(18,23,32,0.7)), url('https://i.ibb.co/TDWhWRWP/freepik-skyline-da-cidade-de-so-paulo-ao-anoitecer-captura-86021.jpg')" }}>
                 <div className="container mx-auto px-6 animate-fade-in-down">
-                    <h1 className="text-5xl md:text-7xl font-bold leading-tight">Nossas Soluções</h1>
-                    <p className="max-w-3xl mx-auto text-lg text-gray-200 mt-4 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>Tecnologia e inovação para transformar a segurança e a gestão do seu condomínio.</p>
+                    <h1 className="text-5xl md:text-7xl font-bold leading-tight">{t('solucoesPage.hero.title')}</h1>
+                    <p className="max-w-3xl mx-auto text-lg text-gray-200 mt-4 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>{t('solucoesPage.hero.subtitle')}</p>
                 </div>
             </section>
 

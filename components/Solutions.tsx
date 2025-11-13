@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import useOnScreen from '../hooks/useOnScreen';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface SolutionCardProps {
     imgSrc: string;
@@ -24,30 +25,31 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ imgSrc, imgAlt, icon, title
 
 
 const Solutions: React.FC = () => {
+    const { t } = useLanguage();
     const sectionRef = useRef<HTMLElement>(null);
     const isVisible = useOnScreen(sectionRef, { threshold: 0.1 });
 
     const solutionsData = [
         {
-            imgSrc: "https://i.ibb.co/39MF8P7G/freepik-imagem-realista-e-profissional-mostrando-um-morado-86018.png",
+            imgSrc: "https://i.ibb.co/Gf3CrHK4/now-detetecao-facial.jpg",
             imgAlt: "Man using facial recognition for intelligent access",
             icon: "key",
-            title: "Acesso Inteligente",
-            description: "Controle facial, QR Code, convites digitais, reconhecimento veicular e liberação remota via app."
+            title: t('solutions.card1.title'),
+            description: t('solutions.card1.description')
         },
         {
-            imgSrc: "https://i.ibb.co/67MBK6JC/freepik-cena-realista-em-alta-definio-mostrando-a-fachada-86017.jpg",
+            imgSrc: "https://i.ibb.co/TDkZt1wX/Now-id-Ia.jpg",
             imgAlt: "AI monitoring identifying people in a crowd",
             icon: "shield",
-            title: "Monitoramento IA",
-            description: "Câmeras com inteligência artificial, cercas virtuais, alarmes sonoros e sensores com análise de comportamento."
+            title: t('solutions.card2.title'),
+            description: t('solutions.card2.description')
         },
         {
-            imgSrc: "https://i.ibb.co/LX2zzPDz/freepik-crie-uma-foto-de-uma-mulher-brasileira-de-aproxima-86016.jpg",
+            imgSrc: "https://i.ibb.co/HTCMMhhF/now-Smartk-Lock.jpg",
             imgAlt: "Smart lockers in a condominium lobby",
             icon: "inventory_2",
-            title: "Armários Inteligentes",
-            description: "Recebimento de encomendas 24/7 com segurança e autonomia. Notificações via app para retirada."
+            title: t('solutions.card3.title'),
+            description: t('solutions.card3.description')
         }
     ];
 
@@ -55,8 +57,8 @@ const Solutions: React.FC = () => {
         <section ref={sectionRef} className="bg-background-light dark:bg-background-dark py-24">
             <div className="container mx-auto px-6 text-center">
                 <div className={`max-w-3xl mx-auto mb-16 transition-all duration-700 ease-out transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                    <h2 className="text-4xl md:text-5xl font-bold text-text-light-primary dark:text-text-dark-primary mb-4">Seu condomínio mais inteligente. Sua vida mais segura.</h2>
-                    <p className="text-text-light-secondary dark:text-text-dark-secondary">Combinamos tecnologia de ponta, atendimento próximo e soluções personalizadas para transformar a rotina de condomínios residenciais e comerciais. Cada serviço é desenvolvido para oferecer mais segurança, praticidade e tranquilidade para síndicos, moradores e administradoras.</p>
+                    <h2 className="text-4xl md:text-5xl font-bold text-text-light-primary dark:text-text-dark-primary mb-4">{t('solutions.title')}</h2>
+                    <p className="text-text-light-secondary dark:text-text-dark-secondary">{t('solutions.subtitle')}</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {solutionsData.map((solution, index) => (

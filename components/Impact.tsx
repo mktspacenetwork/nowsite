@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import useOnScreen from '../hooks/useOnScreen';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const StatCounter: React.FC<{ value: string; isVisible: boolean }> = ({ value, isVisible }) => {
     const [count, setCount] = useState(0);
@@ -34,14 +35,15 @@ const StatCounter: React.FC<{ value: string; isVisible: boolean }> = ({ value, i
 
 
 const Impact: React.FC = () => {
+    const { t } = useLanguage();
     const sectionRef = useRef<HTMLDivElement>(null);
     const isVisible = useOnScreen(sectionRef, { threshold: 0.1 });
 
     const stats = [
-        { value: "+80", label: "Condomínios atendidos" },
-        { value: "+15", label: "Anos de Experiência de Mercado" },
-        { value: "+15k", label: "Moradores Impactados" },
-        { value: "98%", label: "Satisfação entre síndicos" }
+        { value: t('impact.stat1.value'), label: t('impact.stat1.label') },
+        { value: t('impact.stat2.value'), label: t('impact.stat2.label') },
+        { value: t('impact.stat3.value'), label: t('impact.stat3.label') },
+        { value: t('impact.stat4.value'), label: t('impact.stat4.label') }
     ];
 
     return (
@@ -53,7 +55,7 @@ const Impact: React.FC = () => {
                 >
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 items-center">
                         <div className="text-center md:text-left col-span-1 md:col-span-2 lg:col-span-1">
-                            <h2 className="text-4xl font-bold text-text-light-primary dark:text-text-dark-primary">Nosso Impacto</h2>
+                            <h2 className="text-4xl font-bold text-text-light-primary dark:text-text-dark-primary">{t('impact.title')}</h2>
                         </div>
                         {stats.map((stat, index) => (
                             <div key={index} className="text-center">
