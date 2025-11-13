@@ -6,11 +6,13 @@ import HomePage from './components/pages/HomePage';
 import QuemSomos from './components/pages/QuemSomos';
 import Contato from './components/pages/Contato';
 import SolucoesPage from './components/pages/SolucoesPage';
+import usePageMetadata from './hooks/usePageMetadata';
 
 export type Page = 'home' | 'quem-somos' | 'contato' | 'solucoes';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Page>('home');
+  usePageMetadata(currentPage);
 
   const renderPage = () => {
     switch (currentPage) {
@@ -33,7 +35,7 @@ const App: React.FC = () => {
       <main>
         {renderPage()}
       </main>
-      <Footer />
+      <Footer setCurrentPage={setCurrentPage}/>
       <ScrollToTopButton />
     </div>
   );

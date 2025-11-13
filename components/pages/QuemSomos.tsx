@@ -2,12 +2,12 @@ import React, { useRef } from 'react';
 import useOnScreen from '../../hooks/useOnScreen';
 
 const partners = [
-    { src: "https://i.ibb.co/kVJcsbMx/arena-cortinthians.png", alt: "Corinthians Arena logo", className: "h-16" },
-    { src: "https://i.ibb.co/ksnSRkDK/logoporsche.png", alt: "Porsche logo", className: "h-20" },
-    { src: "https://i.ibb.co/jPFR03Gz/logo-itau.png", alt: "Itaú logo", className: "h-20" },
-    { src: "https://i.ibb.co/cXXxZPKK/logo-chevrolet.png", alt: "Chevrolet logo", className: "h-12" },
-    { src: "https://i.ibb.co/00SmXXr/logo-bayer.png", alt: "Bayer logo", className: "h-24" },
-    { src: "https://i.ibb.co/MD2kKhJM/logo-vilarossa.png", alt: "Villa Rossa logo", className: "h-24" },
+    { src: "https://i.ibb.co/kVJcsbMx/arena-cortinthians.png", alt: "Logo do parceiro Corinthians Arena", className: "h-16" },
+    { src: "https://i.ibb.co/ksnSRkDK/logoporsche.png", alt: "Logo do parceiro Porsche", className: "h-20" },
+    { src: "https://i.ibb.co/jPFR03Gz/logo-itau.png", alt: "Logo do parceiro Itaú", className: "h-20" },
+    { src: "https://i.ibb.co/cXXxZPKK/logo-chevrolet.png", alt: "Logo do parceiro Chevrolet", className: "h-12" },
+    { src: "https://i.ibb.co/00SmXXr/logo-bayer.png", alt: "Logo do parceiro Bayer", className: "h-24" },
+    { src: "https://i.ibb.co/MD2kKhJM/logo-vilarossa.png", alt: "Logo do parceiro Villa Rossa", className: "h-24" },
 ];
 
 const values = [
@@ -43,7 +43,7 @@ const QuemSomos: React.FC = () => {
                         <p className="text-text-light-secondary dark:text-text-dark-secondary">Com mais de 15 anos de experiência combinada no setor de tecnologia e segurança, nossa equipe se dedica a entender os desafios únicos de cada condomínio, oferecendo um serviço personalizado e um suporte que vai além do esperado.</p>
                     </div>
                     <div className="order-1 md:order-2">
-                         <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80" alt="Equipe da Now Soluções colaborando" className="rounded-lg shadow-2xl w-full h-full object-cover aspect-[4/3]" />
+                         <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80" alt="Equipe da Now Soluções em uma reunião de planejamento estratégico" className="rounded-lg shadow-2xl w-full h-full object-cover aspect-[4/3]" />
                     </div>
                 </div>
             </section>

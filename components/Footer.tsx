@@ -1,10 +1,21 @@
 import React, { useRef } from 'react';
 import Logo from './Logo';
 import useOnScreen from '../hooks/useOnScreen';
+import { Page } from '../App';
 
-const Footer: React.FC = () => {
+interface FooterProps {
+    setCurrentPage: (page: Page) => void;
+}
+
+const Footer: React.FC<FooterProps> = ({ setCurrentPage }) => {
     const footerRef = useRef<HTMLElement>(null);
     const isVisible = useOnScreen(footerRef, { threshold: 0.1 });
+
+    const handleNavClick = (e: React.MouseEvent, page: Page) => {
+        e.preventDefault();
+        setCurrentPage(page);
+        window.scrollTo(0, 0);
+    };
 
     const socialLinks = [
         { 
@@ -33,18 +44,18 @@ const Footer: React.FC = () => {
                         <p className="text-sm mt-4">Now Soluções - Conectamos segurança, tecnologia e gestão para transformar seu condomínio.</p>
                     </div>
                     <div className="space-y-3 text-sm">
-                        <a className="block hover:text-white" href="#">Home</a>
-                        <a className="block hover:text-white" href="#">Quem Somos</a>
-                        <a className="block hover:text-white" href="#">Contato</a>
-                        <a className="block hover:text-white" href="#">Política de Privacidade</a>
+                        <button className="block hover:text-white" onClick={(e) => handleNavClick(e, 'home')}>Home</button>
+                        <button className="block hover:text-white" onClick={(e) => handleNavClick(e, 'quem-somos')}>Quem Somos</button>
+                        <button className="block hover:text-white" onClick={(e) => handleNavClick(e, 'contato')}>Contato</button>
+                        <button className="block hover:text-white" onClick={(e) => handleNavClick(e, 'home')}>Política de Privacidade</button>
                     </div>
                     <div className="space-y-3 text-sm">
-                        <a className="block hover:text-white" href="#">Condomínio Inteligente</a>
-                        <a className="block hover:text-white" href="#">Área de Acesso</a>
-                        <a className="block hover:text-white" href="#">Área Externa</a>
-                        <a className="block hover:text-white" href="#">Área Interna</a>
-                        <a className="block hover:text-white" href="#">Facilities</a>
-                        <a className="block hover:text-white" href="#">Soluções sob Medida</a>
+                        <button className="block hover:text-white" onClick={(e) => handleNavClick(e, 'solucoes')}>Condomínio Inteligente</button>
+                        <button className="block hover:text-white" onClick={(e) => handleNavClick(e, 'solucoes')}>Área de Acesso</button>
+                        <button className="block hover:text-white" onClick={(e) => handleNavClick(e, 'solucoes')}>Área Externa</button>
+                        <button className="block hover:text-white" onClick={(e) => handleNavClick(e, 'solucoes')}>Área Interna</button>
+                        <button className="block hover:text-white" onClick={(e) => handleNavClick(e, 'solucoes')}>Facilities</button>
+                        <button className="block hover:text-white" onClick={(e) => handleNavClick(e, 'solucoes')}>Soluções sob Medida</button>
                     </div>
                     <div className="space-y-4 text-sm col-span-1 md:col-span-2 lg:col-span-1">
                         <div className="flex space-x-4">

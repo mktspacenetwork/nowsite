@@ -2,12 +2,12 @@ import React, { useRef } from 'react';
 import useOnScreen from '../hooks/useOnScreen';
 
 const partners = [
-    { src: "https://i.ibb.co/kVJcsbMx/arena-cortinthians.png", alt: "Corinthians Arena logo", className: "h-16" },
-    { src: "https://i.ibb.co/ksnSRkDK/logoporsche.png", alt: "Porsche logo", className: "h-20" },
-    { src: "https://i.ibb.co/jPFR03Gz/logo-itau.png", alt: "Itaú logo", className: "h-20" },
-    { src: "https://i.ibb.co/cXXxZPKK/logo-chevrolet.png", alt: "Chevrolet logo", className: "h-12" },
-    { src: "https://i.ibb.co/00SmXXr/logo-bayer.png", alt: "Bayer logo", className: "h-24" },
-    { src: "https://i.ibb.co/MD2kKhJM/logo-vilarossa.png", alt: "Villa Rossa logo", className: "h-24" },
+    { src: "https://i.ibb.co/kVJcsbMx/arena-cortinthians.png", alt: "Logo do parceiro Corinthians Arena", className: "h-16" },
+    { src: "https://i.ibb.co/ksnSRkDK/logoporsche.png", alt: "Logo do parceiro Porsche", className: "h-20" },
+    { src: "https://i.ibb.co/jPFR03Gz/logo-itau.png", alt: "Logo do parceiro Itaú", className: "h-20" },
+    { src: "https://i.ibb.co/cXXxZPKK/logo-chevrolet.png", alt: "Logo do parceiro Chevrolet", className: "h-12" },
+    { src: "https://i.ibb.co/00SmXXr/logo-bayer.png", alt: "Logo do parceiro Bayer", className: "h-24" },
+    { src: "https://i.ibb.co/MD2kKhJM/logo-vilarossa.png", alt: "Logo do parceiro Villa Rossa", className: "h-24" },
 ];
 
 const About: React.FC = () => {
