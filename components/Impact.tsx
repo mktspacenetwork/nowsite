@@ -47,20 +47,20 @@ const Impact: React.FC = () => {
     ];
 
     return (
-        <section className="py-20 lg:py-0">
-            <div className="container mx-auto px-6 -mt-20 relative z-10">
+        <section className="py-20 bg-background-light dark:bg-background-dark">
+            <div className="container mx-auto px-6">
                 <div 
                     ref={sectionRef}
-                    className={`bg-background-light dark:bg-background-dark shadow-xl rounded-lg p-12 transition-all duration-1000 ease-out transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                    className={`lg:-mt-20 bg-[#1f2937] shadow-xl rounded-lg p-12 transition-all duration-1000 ease-out transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
                 >
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 items-center">
                         <div className="text-center md:text-left col-span-1 md:col-span-2 lg:col-span-1">
-                            <h2 className="text-4xl font-bold text-text-light-primary dark:text-text-dark-primary">{t('impact.title')}</h2>
+                            <h2 className="text-4xl font-bold text-text-dark-primary">{t('impact.title')}</h2>
                         </div>
                         {stats.map((stat, index) => (
                             <div key={index} className="text-center">
                                 <StatCounter value={stat.value} isVisible={isVisible} />
-                                <p className="text-text-light-secondary dark:text-text-dark-secondary mt-1">{stat.label}</p>
+                                <p className="text-text-dark-secondary mt-1">{stat.label}</p>
                             </div>
                         ))}
                     </div>

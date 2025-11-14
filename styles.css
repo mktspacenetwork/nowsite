@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-primary: #3979aa;
+  --color-background-light: #f6f7f8;
+  --color-background-dark: #121720;
+  --color-background-darker: #0D1117;
+  --color-surface-light: #f3f4f6;
+  --color-surface-dark: #1f2937;
+  --color-text-light-primary: #111827;
+  --color-text-dark-primary: #f9fafb;
+  --color-text-light-secondary: #4b5563;
+  --color-text-dark-secondary: #d1d5db;
+  
+  --font-family-display: "Space Grotesk", sans-serif;
+  
+  --radius: 0.5rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    background-color: var(--color-background-light);
+  }
+
+  .dark body {
+    background-color: var(--color-background-dark);
+  }
+}
+
+@layer utilities {
+  .cta-bg {
+    background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://i.ibb.co/TDWhWRWP/freepik-skyline-da-cidade-de-so-paulo-ao-anoitecer-captura-86021.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+  
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  
+  .animate-scroll {
+    animation: scroll 40s linear infinite;
+  }
+  
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .animate-fade-in-down {
+    animation: fadeInDown 1s ease-out forwards;
+  }
+  
+  .animate-fade-in-up {
+    animation: fadeInUp 1s ease-out 0.3s forwards;
+  }
+}

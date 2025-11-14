@@ -11,41 +11,68 @@ const Contato: React.FC = () => {
     const isVisible = useOnScreen(formRef, { threshold: 0.1 });
     
     const [formData, setFormData] = useState({
-        name: '',
+        nome: '',
         email: '',
-        subject: '',
-        message: '',
+        telefone: '',
+        mensagem: '',
     });
     const [status, setStatus] = useState<SubmissionStatus>('idle');
+    const [errorMessage, setErrorMessage] = useState('');
+
+    // Máscara de telefone
+    const formatPhoneNumber = (value: string) => {
+        const numbers = value.replace(/\D/g, '');
+        if (numbers.length <= 10) {
+            return numbers.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+        }
+        return numbers.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
+    };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        
+        if (name === 'telefone') {
+            const formatted = formatPhoneNumber(value);
+            setFormData(prev => ({ ...prev, [name]: formatted }));
+        } else {
+            setFormData(prev => ({ ...prev, [name]: value }));
+        }
+        
+        setErrorMessage('');
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setStatus('loading');
+        setErrorMessage('');
 
         try {
-            const response = await fetch('https://formspree.io/f/mblqlygv', {
+            const response = await fetch('/api/contato', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json',
                 },
                 body: JSON.stringify(formData),
             });
 
-            if (response.ok) {
+            const data = await response.json();
+
+            if (response.ok && data.success) {
                 setStatus('success');
-                setFormData({ name: '', email: '', subject: '', message: '' });
+                setFormData({ nome: '', email: '', telefone: '', mensagem: '' });
+                
+                // Resetar status após 5 segundos
+                setTimeout(() => {
+                    setStatus('idle');
+                }, 5000);
             } else {
                 setStatus('error');
+                setErrorMessage(data.error || 'Erro ao enviar mensagem.');
             }
         } catch (error) {
             console.error("Form submission error:", error);
             setStatus('error');
+            setErrorMessage('Erro de conexão. Verifique sua internet e tente novamente.');
         }
     };
 
@@ -67,31 +94,82 @@ const Contato: React.FC = () => {
                             <p className="text-text-light-secondary dark:text-text-dark-secondary mb-8">{t('contato.form.subtitle')}</p>
                             <form className="space-y-6" onSubmit={handleSubmit}>
                                 <div>
-                                    <label htmlFor="name" className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-2">{t('contato.form.name')}</label>
-                                    <input type="text" name="name" id="name" required className="w-full px-4 py-3 bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 rounded-md focus:ring-primary focus:border-primary transition" value={formData.name} onChange={handleInputChange} />
+                                    <label htmlFor="nome" className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-2">{t('contato.form.name')}</label>
+                                    <input 
+                                        type="text" 
+                                        name="nome" 
+                                        id="nome" 
+                                        required 
+                                        minLength={3}
+                                        maxLength={100}
+                                        className="w-full px-4 py-3 bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 rounded-md focus:ring-primary focus:border-primary transition" 
+                                        value={formData.nome} 
+                                        onChange={handleInputChange} 
+                                        placeholder="Seu nome completo"
+                                    />
                                 </div>
                                 <div>
                                     <label htmlFor="email" className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-2">{t('contato.form.email')}</label>
-                                    <input type="email" name="email" id="email" required className="w-full px-4 py-3 bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 rounded-md focus:ring-primary focus:border-primary transition" value={formData.email} onChange={handleInputChange} />
+                                    <input 
+                                        type="email" 
+                                        name="email" 
+                                        id="email" 
+                                        required 
+                                        maxLength={254}
+                                        className="w-full px-4 py-3 bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 rounded-md focus:ring-primary focus:border-primary transition" 
+                                        value={formData.email} 
+                                        onChange={handleInputChange} 
+                                        placeholder="seu@email.com"
+                                    />
                                 </div>
                                 <div>
-                                    <label htmlFor="subject" className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-2">{t('contato.form.subject')}</label>
-                                    <input type="text" name="subject" id="subject" required className="w-full px-4 py-3 bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 rounded-md focus:ring-primary focus:border-primary transition" value={formData.subject} onChange={handleInputChange} />
+                                    <label htmlFor="telefone" className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-2">Telefone</label>
+                                    <input 
+                                        type="tel" 
+                                        name="telefone" 
+                                        id="telefone" 
+                                        required 
+                                        className="w-full px-4 py-3 bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 rounded-md focus:ring-primary focus:border-primary transition" 
+                                        value={formData.telefone} 
+                                        onChange={handleInputChange} 
+                                        placeholder="(11) 98765-4321"
+                                        maxLength={15}
+                                    />
                                 </div>
                                 <div>
-                                    <label htmlFor="message" className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-2">{t('contato.form.message')}</label>
-                                    <textarea name="message" id="message" rows={5} required className="w-full px-4 py-3 bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 rounded-md focus:ring-primary focus:border-primary transition" value={formData.message} onChange={handleInputChange}></textarea>
+                                    <label htmlFor="mensagem" className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-2">{t('contato.form.message')}</label>
+                                    <textarea 
+                                        name="mensagem" 
+                                        id="mensagem" 
+                                        rows={5} 
+                                        required 
+                                        minLength={10}
+                                        maxLength={5000}
+                                        className="w-full px-4 py-3 bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 rounded-md focus:ring-primary focus:border-primary transition" 
+                                        value={formData.mensagem} 
+                                        onChange={handleInputChange}
+                                        placeholder="Como podemos ajudar você?"
+                                    ></textarea>
                                 </div>
                                 <div>
-                                    <button type="submit" className="w-full bg-primary text-white px-8 py-3 rounded-full text-base font-medium transition-all active:scale-95 hover:brightness-95 transform hover:scale-105 disabled:opacity-75 disabled:cursor-not-allowed" disabled={status === 'loading'}>
+                                    <button 
+                                        type="submit" 
+                                        className="w-full bg-primary text-white px-8 py-3 rounded-full text-base font-medium transition-all active:scale-95 hover:brightness-95 transform hover:scale-105 disabled:opacity-75 disabled:cursor-not-allowed" 
+                                        disabled={status === 'loading'}
+                                    >
                                         {status === 'loading' ? t('contato.form.loading') : t('contato.form.submit')}
                                     </button>
                                 </div>
                                 {status === 'success' && (
-                                    <p className="text-green-600 dark:text-green-500 font-medium text-center">{t('contato.form.success')}</p>
+                                    <div className="bg-green-100 dark:bg-green-900/30 border border-green-500 text-green-700 dark:text-green-400 px-4 py-3 rounded-lg text-center">
+                                        <p className="font-medium">{t('contato.form.success')}</p>
+                                        <p className="text-sm mt-1">Entraremos em contato em breve!</p>
+                                    </div>
                                 )}
                                 {status === 'error' && (
-                                    <p className="text-red-600 dark:text-red-500 font-medium text-center">{t('contato.form.error')}</p>
+                                    <div className="bg-red-100 dark:bg-red-900/30 border border-red-500 text-red-700 dark:text-red-400 px-4 py-3 rounded-lg text-center">
+                                        <p className="font-medium">{errorMessage || t('contato.form.error')}</p>
+                                    </div>
                                 )}
                             </form>
                         </div>
