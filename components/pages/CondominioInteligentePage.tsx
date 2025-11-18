@@ -27,12 +27,12 @@ const CondominioInteligentePage: React.FC<CondominioInteligentePageProps> = ({ s
         { title: t('condominioInteligentePage.challenge.c3.title'), description: t('condominioInteligentePage.challenge.c3.description') },
     ];
 
-    // URLs de imagem fornecidas pelo usuário
+    // URLs de imagem atualizadas
     const pillarImages = {
-        'Segurança Inteligente com IA': 'https://github.com/mktspacenetwork/nowsite/blob/main/public/images/portaria_inteligente.jpg?raw=true',
-        'Conectividade de Alta Performance': 'https://github.com/mktspacenetwork/nowsite/blob/main/public/images/portaria_inteligente.jpg?raw=true',
-        'Gestão Digital e Automação': 'https://github.com/mktspacenetwork/nowsite/blob/main/public/images/gestaodigital.jpg?raw=true',
-        'Controle de Acesso Avançado': 'https://github.com/mktspacenetwork/nowsite/blob/main/public/images/controle_facial.jpg?raw=true',
+        'Segurança Inteligente com IA': 'https://i.ibb.co/Q3KDFq30/portaria-inteligente.jpg',
+        'Conectividade de Alta Performance': 'https://i.ibb.co/j9t6m5XC/conectividade.jpg',
+        'Gestão Digital e Automação': 'https://i.ibb.co/1YkMRkpr/gestaodigital.jpg',
+        'Controle de Acesso Avançado': 'https://i.ibb.co/NdX3HVZ6/controle-facial.jpg',
     };
 
     // Reordenado para melhor fluxo visual (Segurança, Conectividade, Gestão, Acesso)
@@ -53,7 +53,7 @@ const CondominioInteligentePage: React.FC<CondominioInteligentePageProps> = ({ s
     ];
 
     // Nova URL de imagem para o Hero
-    const heroImageUrl = 'https://github.com/mktspacenetwork/nowsite/blob/main/public/images/98438.jpg?raw=true';
+    const heroImageUrl = 'https://i.ibb.co/Q7s2RvqB/98438.jpg';
 
     const handleFinalCtaClick = (e: React.MouseEvent) => {
         e.preventDefault();
