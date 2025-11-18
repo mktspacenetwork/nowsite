@@ -78,7 +78,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage }) => {
                     return (
                         <div 
                             key={link.label}
-                            className="relative"
+                            className="relative py-2 -my-2"
                             onMouseEnter={() => setIsSolutionsOpen(true)}
                             onMouseLeave={() => setIsSolutionsOpen(false)}
                         >
