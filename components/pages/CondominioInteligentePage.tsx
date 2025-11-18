@@ -2,6 +2,15 @@ import React, { useRef } from 'react';
 import useOnScreen from '../../hooks/useOnScreen';
 import { useLanguage } from '../../contexts/LanguageContext';
 
+const partners = [
+    { src: "https://i.ibb.co/kVJcsbMx/arena-cortinthians.png", alt: "Logo do parceiro Corinthians Arena", className: "h-16" },
+    { src: "https://i.ibb.co/ksnSRkDK/logoporsche.png", alt: "Logo do parceiro Porsche", className: "h-20" },
+    { src: "https://i.ibb.co/jPFR03Gz/logo-itau.png", alt: "Logo do parceiro Itaú", className: "h-20" },
+    { src: "https://i.ibb.co/cXXxZPKK/logo-chevrolet.png", alt: "Logo do parceiro Chevrolet", className: "h-12" },
+    { src: "https://i.ibb.co/00SmXXr/logo-bayer.png", alt: "Logo do parceiro Bayer", className: "h-24" },
+    { src: "https://i.ibb.co/MD2kKhJM/logo-vilarossa.png", alt: "Logo do parceiro Villa Rossa", className: "h-24" },
+];
+
 const CondominioInteligentePage: React.FC = () => {
     const { t } = useLanguage();
     const pageRef = useRef<HTMLDivElement>(null);
@@ -13,11 +22,12 @@ const CondominioInteligentePage: React.FC = () => {
         { title: t('condominioInteligentePage.challenge.c3.title'), description: t('condominioInteligentePage.challenge.c3.description') },
     ];
 
+    // Reordenado para melhor fluxo visual (Segurança, Conectividade, Gestão, Acesso)
     const pillars = [
-        { icon: 'security', title: t('condominioInteligentePage.solution.p1.title'), description: t('condominioInteligentePage.solution.p1.description') },
-        { icon: 'key', title: t('condominioInteligentePage.solution.p2.title'), description: t('condominioInteligentePage.solution.p2.description') },
-        { icon: 'wifi', title: t('condominioInteligentePage.solution.p3.title'), description: t('condominioInteligentePage.solution.p3.description') },
-        { icon: 'devices', title: t('condominioInteligentePage.solution.p4.title'), description: t('condominioInteligentePage.solution.p4.description') },
+        { icon: t('condominioInteligentePage.solution.p1.icon'), title: t('condominioInteligentePage.solution.p1.title'), description: t('condominioInteligentePage.solution.p1.description') },
+        { icon: t('condominioInteligentePage.solution.p2.icon'), title: t('condominioInteligentePage.solution.p2.title'), description: t('condominioInteligentePage.solution.p2.description') },
+        { icon: t('condominioInteligentePage.solution.p3.icon'), title: t('condominioInteligentePage.solution.p3.title'), description: t('condominioInteligentePage.solution.p3.description') },
+        { icon: t('condominioInteligentePage.solution.p4.icon'), title: t('condominioInteligentePage.solution.p4.title'), description: t('condominioInteligentePage.solution.p4.description') },
     ];
 
     const tableData = [
@@ -32,7 +42,7 @@ const CondominioInteligentePage: React.FC = () => {
             {/* 1. Hero Section */}
             <section className="relative h-[70vh] min-h-[500px] bg-cover bg-center text-white flex items-center justify-center text-center" style={{ backgroundImage: "linear-gradient(rgba(18,23,32,0.7), rgba(18,23,32,0.7)), url('https://i.ibb.co/TDWhWRWP/freepik-skyline-da-cidade-de-so-paulo-ao-anoitecer-captura-86021.jpg')" }}>
                 <div className="container mx-auto px-6 animate-fade-in-down">
-                    <h1 className="text-4xl md:text-6xl font-bold leading-tight">{t('condominioInteligentePage.hero.title')}</h1>
+                    <h1 className="text-4xl md:text-5xl font-bold leading-tight">{t('condominioInteligentePage.hero.title')}</h1>
                     <p className="max-w-3xl mx-auto text-lg text-gray-200 mt-4 animate-fade-in-up" style={{ animationDelay: '0.3s' }} dangerouslySetInnerHTML={{ __html: t('condominioInteligentePage.hero.subtitle') }}></p>
                     <a href="#contato" className="mt-8 inline-block bg-primary text-white px-8 py-4 rounded-full font-medium transition-all hover:brightness-95 transform hover:scale-105 active:scale-95 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
                         {t('condominioInteligentePage.hero.cta')}
@@ -40,13 +50,33 @@ const CondominioInteligentePage: React.FC = () => {
                 </div>
             </section>
 
+            {/* 1.5. New Social Proof Section: Quem Confia na NOW */}
+            <section className={`py-12 bg-white dark:bg-background-darker transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className="container mx-auto px-6 text-center">
+                    <p className="text-primary font-semibold tracking-widest text-sm mb-8">{t('condominioInteligentePage.socialProof1.title')}</p>
+                    <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_10%,white_90%,transparent)]">
+                        <div className="flex w-max animate-scroll hover:[animation-play-state:paused]">
+                            {[...partners, ...partners].map((partner, index) => (
+                                <div key={index} className="flex-shrink-0 w-48 h-28 flex items-center justify-center mx-2 opacity-60 hover:opacity-100 transition-opacity duration-300">
+                                    <img 
+                                        alt={partner.alt} 
+                                        className={`${partner.className} max-h-24 w-auto`} 
+                                        src={partner.src} 
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* 2. The Challenge Section */}
             <section className={`py-24 bg-background-light dark:bg-background-dark transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                 <div className="container mx-auto px-6 text-center">
-                    <h2 className="text-3xl md:text-5xl font-bold text-text-light-primary dark:text-text-dark-primary mb-12">{t('condominioInteligentePage.challenge.title')}</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold text-text-light-primary dark:text-text-dark-primary mb-12">{t('condominioInteligentePage.challenge.title')}</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {challenges.map((challenge, index) => (
-                            <div key={index} className="bg-white dark:bg-surface-dark p-8 rounded-lg shadow-lg">
+                            <div key={index} className="bg-white dark:bg-surface-dark p-8 rounded-lg shadow-lg problem-card">
                                 <h3 className="text-2xl font-bold text-primary mb-3">{challenge.title}</h3>
                                 <p className="text-text-light-secondary dark:text-text-dark-secondary">{challenge.description}</p>
                             </div>
@@ -55,33 +85,33 @@ const CondominioInteligentePage: React.FC = () => {
                 </div>
             </section>
 
-            {/* 3. The Solution Section */}
+            {/* 3. The Solution Section (4 Pillars) */}
             <section className={`py-24 bg-white dark:bg-background-darker transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '150ms' }}>
                 <div className="container mx-auto px-6 text-center">
-                    <h2 className="text-3xl md:text-5xl font-bold text-text-light-primary dark:text-text-dark-primary mb-12">{t('condominioInteligentePage.solution.title')}</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold text-text-light-primary dark:text-text-dark-primary mb-12">{t('condominioInteligentePage.solution.title')}</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                         {pillars.map((pillar, index) => (
-                            <div key={index} className="text-center">
+                            <div key={index} className="text-center p-6 bg-surface-light dark:bg-surface-dark rounded-lg shadow-md pillar-card">
                                 <div className="inline-block p-5 bg-primary/10 rounded-lg mb-6">
                                     <span className="material-icons-outlined text-4xl text-primary">{pillar.icon}</span>
                                 </div>
                                 <h3 className="text-xl font-bold mb-2">{pillar.title}</h3>
-                                <p className="text-text-light-secondary dark:text-text-dark-secondary text-sm">{pillar.description}</p>
+                                <p className="text-text-light-secondary dark:text-text-dark-secondary text-sm line-clamp-2">{pillar.description}</p>
                             </div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* 4. Social Proof Section */}
+            {/* 4. Social Proof Section (Video Case) */}
             <section className={`py-24 bg-background-light dark:bg-background-dark text-center transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '300ms' }}>
                 <div className="container mx-auto px-6">
-                    <h2 className="text-3xl md:text-5xl font-bold text-text-light-primary dark:text-text-dark-primary">{t('condominioInteligentePage.socialProof.title')}</h2>
-                    <p className="text-lg text-text-light-secondary dark:text-text-dark-secondary mt-4 mb-8 max-w-2xl mx-auto">{t('condominioInteligentePage.socialProof.subtitle')}</p>
-                    <div className="aspect-video bg-gray-300 dark:bg-gray-700 rounded-lg max-w-4xl mx-auto flex items-center justify-center">
+                    <h2 className="text-3xl md:text-4xl font-bold text-text-light-primary dark:text-text-dark-primary">{t('condominioInteligentePage.socialProof.title')}</h2>
+                    <p className="text-lg text-text-light-secondary dark:text-text-dark-secondary mt-4 mb-8 max-w-2xl mx-auto font-semibold">{t('condominioInteligentePage.socialProof.subtitle')}</p>
+                    <div className="aspect-video bg-gray-300 dark:bg-gray-700 rounded-lg max-w-4xl mx-auto flex items-center justify-center video-container">
                         <span className="material-icons-outlined text-6xl text-gray-500">play_circle_outline</span>
                     </div>
-                    <a href="#contato" className="mt-8 inline-block bg-primary/80 text-white px-8 py-3 rounded-full font-medium transition-all hover:bg-primary active:scale-95">
+                    <a href="#diferencial" className="mt-8 inline-block bg-primary/80 text-white px-8 py-3 rounded-full font-medium transition-all hover:bg-primary active:scale-95 cta-button-secondary">
                         {t('condominioInteligentePage.socialProof.cta')}
                     </a>
                 </div>
@@ -90,29 +120,29 @@ const CondominioInteligentePage: React.FC = () => {
             {/* 5. Detailed Solutions Section */}
             <section className={`py-24 bg-white dark:bg-background-darker transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '450ms' }}>
                 <div className="container mx-auto px-6">
-                    <h2 className="text-3xl md:text-5xl font-bold text-center mb-12">{t('condominioInteligentePage.detailedSolutions.title')}</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{t('condominioInteligentePage.detailedSolutions.title')}</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
-                        <div>
+                        <div className="solution-category">
                             <h3 className="text-2xl font-bold text-primary mb-4">{t('condominioInteligentePage.detailedSolutions.s1.title')}</h3>
-                            <p className="text-text-light-secondary dark:text-text-dark-secondary">{t('condominioInteligentePage.detailedSolutions.s1.description')}</p>
+                            <p className="text-text-light-secondary dark:text-text-dark-secondary solution-item">{t('condominioInteligentePage.detailedSolutions.s1.description')}</p>
                         </div>
-                        <div>
+                        <div className="solution-category">
                             <h3 className="text-2xl font-bold text-primary mb-4">{t('condominioInteligentePage.detailedSolutions.s2.title')}</h3>
-                            <p className="text-text-light-secondary dark:text-text-dark-secondary">{t('condominioInteligentePage.detailedSolutions.s2.description')}</p>
+                            <p className="text-text-light-secondary dark:text-text-dark-secondary solution-item">{t('condominioInteligentePage.detailedSolutions.s2.description')}</p>
                         </div>
-                        <div>
+                        <div className="solution-category">
                             <h3 className="text-2xl font-bold text-primary mb-4">{t('condominioInteligentePage.detailedSolutions.s3.title')}</h3>
-                            <p className="text-text-light-secondary dark:text-text-dark-secondary">{t('condominioInteligentePage.detailedSolutions.s3.description')}</p>
+                            <p className="text-text-light-secondary dark:text-text-dark-secondary solution-item">{t('condominioInteligentePage.detailedSolutions.s3.description')}</p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* 6. Differentiator Section */}
-            <section className={`py-24 bg-background-light dark:bg-background-dark transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '600ms' }}>
+            {/* 6. Differentiator Section (Financial Comparison) */}
+            <section id="diferencial" className={`py-24 bg-background-light dark:bg-background-dark transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '600ms' }}>
                 <div className="container mx-auto px-6">
-                    <h2 className="text-3xl md:text-5xl font-bold text-center mb-12">{t('condominioInteligentePage.differentiator.title')}</h2>
-                    <div className="overflow-x-auto">
+                    <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{t('condominioInteligentePage.differentiator.title')}</h2>
+                    <div className="overflow-x-auto comparison-table">
                         <table className="w-full max-w-5xl mx-auto border-collapse text-left">
                             <thead>
                                 <tr className="border-b border-gray-300 dark:border-gray-600">
@@ -140,7 +170,7 @@ const CondominioInteligentePage: React.FC = () => {
                 <div className="container mx-auto px-6">
                     <h2 className="text-3xl md:text-5xl font-bold">{t('condominioInteligentePage.finalCta.title')}</h2>
                     <p className="text-lg mt-4 mb-8 max-w-3xl mx-auto">{t('condominioInteligentePage.finalCta.subtitle')}</p>
-                    <a href="https://wa.me/551152835040" target="_blank" rel="noopener noreferrer" className="inline-block bg-white text-primary px-10 py-4 rounded-full font-bold text-lg transition-all hover:brightness-95 transform hover:scale-105 active:scale-95">
+                    <a href="https://wa.me/551152835040" target="_blank" rel="noopener noreferrer" className="inline-block bg-white text-primary px-10 py-4 rounded-full font-bold text-lg transition-all hover:brightness-95 transform hover:scale-105 active:scale-95 cta-button-final">
                         {t('condominioInteligentePage.finalCta.cta')}
                     </a>
                 </div>
