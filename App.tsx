@@ -42,7 +42,7 @@ const App: React.FC = () => {
       case 'solucoes-sob-medida':
         return <SolucoesSobMedidaPage />;
       case 'condominio-inteligente':
-        return <CondominioInteligentePage />;
+        return <CondominioInteligentePage setCurrentPage={setCurrentPage} />;
       default:
         return <HomePage />;
     }

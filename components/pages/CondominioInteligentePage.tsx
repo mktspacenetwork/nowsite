@@ -1,6 +1,11 @@
 import React, { useRef } from 'react';
 import useOnScreen from '../../hooks/useOnScreen';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { Page } from '../../App';
+
+interface CondominioInteligentePageProps {
+    setCurrentPage: (page: Page) => void;
+}
 
 const partners = [
     { src: "https://i.ibb.co/kVJcsbMx/arena-cortinthians.png", alt: "Logo do parceiro Corinthians Arena", className: "h-16" },
@@ -11,7 +16,7 @@ const partners = [
     { src: "https://i.ibb.co/MD2kKhJM/logo-vilarossa.png", alt: "Logo do parceiro Villa Rossa", className: "h-24" },
 ];
 
-const CondominioInteligentePage: React.FC = () => {
+const CondominioInteligentePage: React.FC<CondominioInteligentePageProps> = ({ setCurrentPage }) => {
     const { t } = useLanguage();
     const pageRef = useRef<HTMLDivElement>(null);
     const isVisible = useOnScreen(pageRef, { threshold: 0.05 });
@@ -49,6 +54,12 @@ const CondominioInteligentePage: React.FC = () => {
 
     // Nova URL de imagem para o Hero
     const heroImageUrl = 'https://github.com/mktspacenetwork/nowsite/blob/main/public/images/98438.jpg?raw=true';
+
+    const handleFinalCtaClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+        setCurrentPage('contato');
+        window.scrollTo(0, 0);
+    };
 
     return (
         <div ref={pageRef}>
@@ -196,9 +207,9 @@ const CondominioInteligentePage: React.FC = () => {
                     {/* H2 ajustado para text-3xl md:text-5xl (mantido o tamanho para alto impacto) */}
                     <h2 className="text-3xl md:text-5xl font-bold">{t('condominioInteligentePage.finalCta.title')}</h2>
                     <p className="text-lg mt-4 mb-8 max-w-3xl mx-auto">{t('condominioInteligentePage.finalCta.subtitle')}</p>
-                    <a href="https://wa.me/551152835040" target="_blank" rel="noopener noreferrer" className="inline-block bg-white text-primary px-10 py-4 rounded-full font-bold text-lg transition-all hover:brightness-95 transform hover:scale-105 active:scale-95 cta-button-final">
+                    <button onClick={handleFinalCtaClick} className="inline-block bg-white text-primary px-10 py-4 rounded-full font-bold text-lg transition-all hover:brightness-95 transform hover:scale-105 active:scale-95 cta-button-final">
                         {t('condominioInteligentePage.finalCta.cta')}
-                    </a>
+                    </button>
                 </div>
             </section>
         </div>
