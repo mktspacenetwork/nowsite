@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Logo from './Logo';
 import ThemeToggle from './ThemeToggle';
 import { Page } from '../App';
@@ -15,6 +15,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage }) => {
     const [isSolutionsOpen, setIsSolutionsOpen] = useState(false);
     const [isMobileSolutionsOpen, setIsMobileSolutionsOpen] = useState(false);
     const [isSticky, setIsSticky] = useState(false);
+    const dropdownTimeoutRef = useRef<number | null>(null); // Ref para o timeout do dropdown
 
     useEffect(() => {
         const handleScroll = () => {
@@ -79,8 +80,17 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage }) => {
                         <div 
                             key={link.label}
                             className="relative py-2 -my-2"
-                            onMouseEnter={() => setIsSolutionsOpen(true)}
-                            onMouseLeave={() => setIsSolutionsOpen(false)}
+                            onMouseEnter={() => {
+                                if (dropdownTimeoutRef.current) {
+                                    clearTimeout(dropdownTimeoutRef.current);
+                                }
+                                setIsSolutionsOpen(true);
+                            }}
+                            onMouseLeave={() => {
+                                dropdownTimeoutRef.current = window.setTimeout(() => {
+                                    setIsSolutionsOpen(false);
+                                }, 200); // Pequeno atraso de 200ms
+                            }}
                         >
                             <div 
                                 className={`flex items-center cursor-default ${navLinkClasses(link.page as Page, true)}`}
