@@ -145,7 +145,7 @@ const CondominioInteligentePage: React.FC<CondominioInteligentePageProps> = ({ s
                     <div className="aspect-video bg-gray-300 dark:bg-gray-700 rounded-lg max-w-4xl mx-auto flex items-center justify-center video-container">
                         <iframe 
                             className="w-full h-full rounded-lg"
-                            src="https://www.youtube.com/embed/PL_tYcp84Qc?autoplay=0&modestbranding=1&rel=0" 
+                            src="https://www.youtube.com/embed/PL_tYcp84Qc?autoplay=0&modestbranding=1&rel=0&controls=0&disablekb=1&fs=0" 
                             title="YouTube video player" 
                             frameBorder="0" 
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
