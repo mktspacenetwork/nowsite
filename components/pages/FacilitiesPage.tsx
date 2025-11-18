@@ -9,9 +9,9 @@ const FacilitiesPage: React.FC = () => {
     const isVisible = useOnScreen(introRef, { threshold: 0.1 });
 
     const products = [
-        { icon: 'wifi', title: t('facilitiesPage.products.p1.title'), description: t('facilitiesPage.products.p1.description'), imgSrc: 'https://i.ibb.co/R4f0fQx/wifi-performance.jpg' },
-        { icon: 'settings_ethernet', title: t('facilitiesPage.products.p2.title'), description: t('facilitiesPage.products.p2.description'), imgSrc: 'https://i.ibb.co/GvXN3pM/switches-gerenciaveis.jpg' },
-        { icon: 'build', title: t('facilitiesPage.products.p3.title'), description: t('facilitiesPage.products.p3.description'), imgSrc: 'https://i.ibb.co/bFmYjYd/tablet-portaria.jpg' },
+        { icon: 'wifi', title: t('facilitiesPage.products.p1.title'), description: t('facilitiesPage.products.p1.description'), imgSrc: 'https://raw.githubusercontent.com/mktspacenetwork/nowsite/main/public/images/wifi6.png' },
+        { icon: 'settings_ethernet', title: t('facilitiesPage.products.p2.title'), description: t('facilitiesPage.products.p2.description'), imgSrc: 'https://raw.githubusercontent.com/mktspacenetwork/nowsite/main/public/images/switches.jpg' },
+        { icon: 'build', title: t('facilitiesPage.products.p3.title'), description: t('facilitiesPage.products.p3.description'), imgSrc: 'https://raw.githubusercontent.com/mktspacenetwork/nowsite/main/public/images/manutencaoelevador.jpg' },
         { icon: 'sync_alt', title: t('facilitiesPage.products.p4.title'), description: t('facilitiesPage.products.p4.description'), imgSrc: 'https://i.ibb.co/zThc9bhk/app-now.jpg' },
     ];
 
