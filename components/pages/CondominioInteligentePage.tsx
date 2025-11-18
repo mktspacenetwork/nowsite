@@ -43,7 +43,7 @@ const CondominioInteligentePage: React.FC = () => {
             {/* 2. The Challenge Section */}
             <section className={`py-24 bg-background-light dark:bg-background-dark transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                 <div className="container mx-auto px-6 text-center">
-                    <h2 className="text-4xl md:text-5xl font-bold text-text-light-primary dark:text-text-dark-primary mb-12">{t('condominioInteligentePage.challenge.title')}</h2>
+                    <h2 className="text-3xl md:text-5xl font-bold text-text-light-primary dark:text-text-dark-primary mb-12">{t('condominioInteligentePage.challenge.title')}</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {challenges.map((challenge, index) => (
                             <div key={index} className="bg-white dark:bg-surface-dark p-8 rounded-lg shadow-lg">
@@ -58,7 +58,7 @@ const CondominioInteligentePage: React.FC = () => {
             {/* 3. The Solution Section */}
             <section className={`py-24 bg-white dark:bg-background-darker transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '150ms' }}>
                 <div className="container mx-auto px-6 text-center">
-                    <h2 className="text-4xl md:text-5xl font-bold text-text-light-primary dark:text-text-dark-primary mb-12">{t('condominioInteligentePage.solution.title')}</h2>
+                    <h2 className="text-3xl md:text-5xl font-bold text-text-light-primary dark:text-text-dark-primary mb-12">{t('condominioInteligentePage.solution.title')}</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                         {pillars.map((pillar, index) => (
                             <div key={index} className="text-center">
@@ -76,7 +76,7 @@ const CondominioInteligentePage: React.FC = () => {
             {/* 4. Social Proof Section */}
             <section className={`py-24 bg-background-light dark:bg-background-dark text-center transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '300ms' }}>
                 <div className="container mx-auto px-6">
-                    <h2 className="text-4xl md:text-5xl font-bold text-text-light-primary dark:text-text-dark-primary">{t('condominioInteligentePage.socialProof.title')}</h2>
+                    <h2 className="text-3xl md:text-5xl font-bold text-text-light-primary dark:text-text-dark-primary">{t('condominioInteligentePage.socialProof.title')}</h2>
                     <p className="text-lg text-text-light-secondary dark:text-text-dark-secondary mt-4 mb-8 max-w-2xl mx-auto">{t('condominioInteligentePage.socialProof.subtitle')}</p>
                     <div className="aspect-video bg-gray-300 dark:bg-gray-700 rounded-lg max-w-4xl mx-auto flex items-center justify-center">
                         <span className="material-icons-outlined text-6xl text-gray-500">play_circle_outline</span>
@@ -90,7 +90,7 @@ const CondominioInteligentePage: React.FC = () => {
             {/* 5. Detailed Solutions Section */}
             <section className={`py-24 bg-white dark:bg-background-darker transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '450ms' }}>
                 <div className="container mx-auto px-6">
-                    <h2 className="text-4xl md:text-5xl font-bold text-center mb-12">{t('condominioInteligentePage.detailedSolutions.title')}</h2>
+                    <h2 className="text-3xl md:text-5xl font-bold text-center mb-12">{t('condominioInteligentePage.detailedSolutions.title')}</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
                         <div>
                             <h3 className="text-2xl font-bold text-primary mb-4">{t('condominioInteligentePage.detailedSolutions.s1.title')}</h3>
@@ -111,7 +111,7 @@ const CondominioInteligentePage: React.FC = () => {
             {/* 6. Differentiator Section */}
             <section className={`py-24 bg-background-light dark:bg-background-dark transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '600ms' }}>
                 <div className="container mx-auto px-6">
-                    <h2 className="text-4xl md:text-5xl font-bold text-center mb-12">{t('condominioInteligentePage.differentiator.title')}</h2>
+                    <h2 className="text-3xl md:text-5xl font-bold text-center mb-12">{t('condominioInteligentePage.differentiator.title')}</h2>
                     <div className="overflow-x-auto">
                         <table className="w-full max-w-5xl mx-auto border-collapse text-left">
                             <thead>
@@ -138,7 +138,7 @@ const CondominioInteligentePage: React.FC = () => {
             {/* 7. Final CTA Section */}
             <section id="contato" className={`py-24 bg-primary text-white text-center transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '750ms' }}>
                 <div className="container mx-auto px-6">
-                    <h2 className="text-4xl md:text-5xl font-bold">{t('condominioInteligentePage.finalCta.title')}</h2>
+                    <h2 className="text-3xl md:text-5xl font-bold">{t('condominioInteligentePage.finalCta.title')}</h2>
                     <p className="text-lg mt-4 mb-8 max-w-3xl mx-auto">{t('condominioInteligentePage.finalCta.subtitle')}</p>
                     <a href="https://wa.me/551152835040" target="_blank" rel="noopener noreferrer" className="inline-block bg-white text-primary px-10 py-4 rounded-full font-bold text-lg transition-all hover:brightness-95 transform hover:scale-105 active:scale-95">
                         {t('condominioInteligentePage.finalCta.cta')}
