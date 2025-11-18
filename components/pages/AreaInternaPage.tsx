@@ -9,9 +9,9 @@ const AreaInternaPage: React.FC = () => {
     const isVisible = useOnScreen(introRef, { threshold: 0.1 });
 
     const products = [
-        { icon: 'videocam', title: t('areaInternaPage.products.p1.title'), description: t('areaInternaPage.products.p1.description'), imgSrc: 'https://raw.githubusercontent.com/mktspacenetwork/nowsite/main/public/images/analisedecomportamento.jpeg' },
-        { icon: 'psychology', title: t('areaInternaPage.products.p2.title'), description: t('areaInternaPage.products.p2.description'), imgSrc: 'https://i.ibb.co/yQ5ZzJg/analise-comportamento.jpg' },
-        { icon: 'event_available', title: t('areaInternaPage.products.p3.title'), description: t('areaInternaPage.products.p3.description'), imgSrc: 'https://raw.githubusercontent.com/mktspacenetwork/nowsite/main/public/images/cameradealtaresolucao.jpeg' },
+        { icon: 'videocam', title: t('areaInternaPage.products.p1.title'), description: t('areaInternaPage.products.p1.description'), imgSrc: 'https://raw.githubusercontent.com/mktspacenetwork/nowsite/main/public/images/cameradealtaresolucao.jpeg' },
+        { icon: 'psychology', title: t('areaInternaPage.products.p2.title'), description: t('areaInternaPage.products.p2.description'), imgSrc: 'https://raw.githubusercontent.com/mktspacenetwork/nowsite/main/public/images/analisedecomportamento.jpeg' },
+        { icon: 'event_available', title: t('areaInternaPage.products.p3.title'), description: t('areaInternaPage.products.p3.description'), imgSrc: 'https://raw.githubusercontent.com/mktspacenetwork/nowsite/main/public/images/app_now_.jpg' },
         { icon: 'sensors', title: t('areaInternaPage.products.p4.title'), description: t('areaInternaPage.products.p4.description'), imgSrc: 'https://raw.githubusercontent.com/mktspacenetwork/nowsite/main/public/images/gassensor.jpg' },
     ];
 
