@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -9,8 +8,13 @@ import Contato from './components/pages/Contato';
 import SolucoesPage from './components/pages/SolucoesPage';
 import usePageMetadata from './hooks/usePageMetadata';
 import WhatsAppButton from './components/WhatsAppButton';
+import AreaAcessoPage from './components/pages/AreaAcessoPage';
+import AreaExternaPage from './components/pages/AreaExternaPage';
+import AreaInternaPage from './components/pages/AreaInternaPage';
+import FacilitiesPage from './components/pages/FacilitiesPage';
+import SolucoesSobMedidaPage from './components/pages/SolucoesSobMedidaPage';
 
-export type Page = 'home' | 'quem-somos' | 'contato' | 'solucoes';
+export type Page = 'home' | 'quem-somos' | 'contato' | 'solucoes' | 'area-acesso' | 'area-externa' | 'area-interna' | 'facilities' | 'solucoes-sob-medida';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -26,6 +30,16 @@ const App: React.FC = () => {
         return <Contato />;
       case 'solucoes':
         return <SolucoesPage />;
+      case 'area-acesso':
+        return <AreaAcessoPage />;
+      case 'area-externa':
+        return <AreaExternaPage />;
+      case 'area-interna':
+        return <AreaInternaPage />;
+      case 'facilities':
+        return <FacilitiesPage />;
+      case 'solucoes-sob-medida':
+        return <SolucoesSobMedidaPage />;
       default:
         return <HomePage />;
     }

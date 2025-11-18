@@ -87,11 +87,11 @@ const Footer: React.FC<FooterProps> = ({ setCurrentPage }) => {
                     </div>
                     <div className="space-y-3 text-sm">
                         <button className="block hover:text-white" onClick={(e) => handleNavClick(e, 'solucoes')}>{t('footer.solutions.smartCondo')}</button>
-                        <button className="block hover:text-white" onClick={(e) => handleNavClick(e, 'solucoes')}>{t('footer.solutions.access')}</button>
-                        <button className="block hover:text-white" onClick={(e) => handleNavClick(e, 'solucoes')}>{t('footer.solutions.external')}</button>
-                        <button className="block hover:text-white" onClick={(e) => handleNavClick(e, 'solucoes')}>{t('footer.solutions.internal')}</button>
-                        <button className="block hover:text-white" onClick={(e) => handleNavClick(e, 'solucoes')}>{t('footer.solutions.facilities')}</button>
-                        <button className="block hover:text-white" onClick={(e) => handleNavClick(e, 'solucoes')}>{t('footer.solutions.custom')}</button>
+                        <button className="block hover:text-white" onClick={(e) => handleNavClick(e, 'area-acesso')}>{t('footer.solutions.access')}</button>
+                        <button className="block hover:text-white" onClick={(e) => handleNavClick(e, 'area-externa')}>{t('footer.solutions.external')}</button>
+                        <button className="block hover:text-white" onClick={(e) => handleNavClick(e, 'area-interna')}>{t('footer.solutions.internal')}</button>
+                        <button className="block hover:text-white" onClick={(e) => handleNavClick(e, 'facilities')}>{t('footer.solutions.facilities')}</button>
+                        <button className="block hover:text-white" onClick={(e) => handleNavClick(e, 'solucoes-sob-medida')}>{t('footer.solutions.custom')}</button>
                     </div>
                     <div className="space-y-4 text-sm col-span-1 md:col-span-2 lg:col-span-1">
                          <div className="flex items-center space-x-4">

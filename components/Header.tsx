@@ -41,11 +41,11 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage }) => {
     ];
     
     const solutionsSubMenu = [
-        { page: 'solucoes', label: t('solutionsSub.access') },
-        { page: 'solucoes', label: t('solutionsSub.external') },
-        { page: 'solucoes', label: t('solutionsSub.internal') },
-        { page: 'solucoes', label: t('solutionsSub.facilities') },
-        { page: 'solucoes', label: t('solutionsSub.custom') },
+        { page: 'area-acesso', label: t('solutionsSub.access') },
+        { page: 'area-externa', label: t('solutionsSub.external') },
+        { page: 'area-interna', label: t('solutionsSub.internal') },
+        { page: 'facilities', label: t('solutionsSub.facilities') },
+        { page: 'solucoes-sob-medida', label: t('solutionsSub.custom') },
     ];
 
     const handleNavClick = (e: React.MouseEvent, page: Page) => {
@@ -53,9 +53,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage }) => {
         setCurrentPage(page);
         setIsMenuOpen(false);
         setIsMobileSolutionsOpen(false);
-        if (page !== 'home') {
-            window.scrollTo(0, 0);
-        }
+        window.scrollTo(0, 0);
     };
 
     const handleMobileSolutionsToggle = (e: React.MouseEvent) => {
