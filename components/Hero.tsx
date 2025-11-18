@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { WHATSAPP_LINK } from '../constants/links';
 
 const Hero: React.FC = () => {
     const { t } = useLanguage();
@@ -104,7 +105,7 @@ const Hero: React.FC = () => {
                             </div>
                         ))}
                     </div>
-                     <a className="bg-primary text-white px-8 py-4 rounded-full font-medium transition-all mt-4 hover:brightness-95 transform hover:scale-105 active:scale-95" href="https://wa.me/551152835040" target="_blank" rel="noopener noreferrer">{t('hero.cta')}</a>
+                     <a className="bg-primary text-white px-8 py-4 rounded-full font-medium transition-all mt-4 hover:brightness-95 transform hover:scale-105 active:scale-95" href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">{t('hero.cta')}</a>
                  </div>
                  
                  {/* Navigation Dots */}

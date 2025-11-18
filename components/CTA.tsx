@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import useOnScreen from '../hooks/useOnScreen';
 import { useLanguage } from '../contexts/LanguageContext';
+import { WHATSAPP_LINK } from '../constants/links';
 
 const CTA: React.FC = () => {
     const { t } = useLanguage();
@@ -18,7 +19,7 @@ const CTA: React.FC = () => {
                     <p className="text-text-light-secondary dark:text-text-dark-secondary mb-8">{t('cta.description')}</p>
                     <a 
                         className={`inline-block bg-primary text-white px-8 py-3 rounded-full font-medium hover:brightness-95 transition-all duration-700 ease-out transform hover:scale-105 active:scale-95 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}
-                        href="https://wa.me/551152835040"
+                        href={WHATSAPP_LINK}
                         target="_blank" 
                         rel="noopener noreferrer"
                         style={{ transitionDelay: '300ms' }}

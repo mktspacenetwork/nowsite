@@ -3,6 +3,7 @@ import Logo from './Logo';
 import ThemeToggle from './ThemeToggle';
 import { Page } from '../App';
 import { useLanguage } from '../contexts/LanguageContext';
+import { WHATSAPP_LINK } from '../constants/links';
 
 interface HeaderProps {
     currentPage: Page;
@@ -156,7 +157,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage }) => {
                         </button>
                     );
                 })}
-                <a className="bg-primary text-white px-8 py-3 rounded-full font-medium transition-all active:scale-95 hover:brightness-95 transform hover:scale-105" href="https://wa.me/551152835040" target="_blank" rel="noopener noreferrer" onClick={() => setIsMenuOpen(false)}>{t('header.cta')}</a>
+                <a className="bg-primary text-white px-8 py-3 rounded-full font-medium transition-all active:scale-95 hover:brightness-95 transform hover:scale-105" href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" onClick={() => setIsMenuOpen(false)}>{t('header.cta')}</a>
             </nav>
         </div>
     );
@@ -180,7 +181,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage }) => {
                 
                 <div className="hidden lg:flex items-center space-x-4">
                     <ThemeToggle />
-                    <a className="bg-primary text-white px-8 py-3 rounded-full text-base font-medium transition-all active:scale-95 hover:brightness-95 transform hover:scale-105" href="https://wa.me/551152835040" target="_blank" rel="noopener noreferrer">{t('header.cta')}</a>
+                    <a className="bg-primary text-white px-8 py-3 rounded-full text-base font-medium transition-all active:scale-95 hover:brightness-95 transform hover:scale-105" href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">{t('header.cta')}</a>
                 </div>
                 <div className="lg:hidden flex items-center space-x-2">
                     <ThemeToggle />
