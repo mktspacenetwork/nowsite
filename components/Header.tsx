@@ -52,6 +52,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage }) => {
         e.preventDefault();
         setCurrentPage(page);
         setIsMenuOpen(false);
+        setIsSolutionsOpen(false);
         setIsMobileSolutionsOpen(false);
         window.scrollTo(0, 0);
     };
@@ -61,8 +62,14 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage }) => {
         setIsMobileSolutionsOpen(!isMobileSolutionsOpen);
     };
     
-    const navLinkClasses = (page: Page) => 
-        `hover:text-primary transition-colors ${currentPage === page ? 'text-primary' : ''}`;
+    const navLinkClasses = (page: Page, isSubmenuParent: boolean = false) => {
+        let isActive = currentPage === page;
+        if (isSubmenuParent) {
+            const solutionPages = solutionsSubMenu.map(p => p.page);
+            isActive = isActive || solutionPages.includes(currentPage);
+        }
+        return `hover:text-primary transition-colors ${isActive ? 'text-primary' : ''}`;
+    }
 
     const renderDesktopNav = () => (
         <nav className="hidden lg:flex items-center space-x-10 text-base font-medium">
@@ -71,16 +78,18 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage }) => {
                     return (
                         <div 
                             key={link.label}
-                            className="relative pb-2 -mb-2"
+                            className="relative"
                             onMouseEnter={() => setIsSolutionsOpen(true)}
                             onMouseLeave={() => setIsSolutionsOpen(false)}
                         >
-                            <button className={`flex items-center ${navLinkClasses(link.page as Page)}`} onClick={(e) => handleNavClick(e, link.page as Page)}>
+                            <div 
+                                className={`flex items-center cursor-default ${navLinkClasses(link.page as Page, true)}`}
+                            >
                                 {link.label}
                                 <span className={`material-icons-outlined text-base ml-1 transition-transform duration-300 ${isSolutionsOpen ? 'rotate-180' : ''}`}>{link.icon}</span>
-                            </button>
+                            </div>
                             {isSolutionsOpen && (
-                                <div className="absolute top-full w-56 bg-white dark:bg-surface-dark rounded-md shadow-lg py-2 text-left animate-fade-in-down" style={{animationDuration: '300ms'}}>
+                                <div className="absolute top-full mt-2 w-56 bg-white dark:bg-surface-dark rounded-md shadow-lg py-2 text-left animate-fade-in-down" style={{animationDuration: '300ms'}}>
                                     {solutionsSubMenu.map(subLink => (
                                         <button 
                                             key={subLink.label} 
@@ -98,7 +107,6 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage }) => {
                 return (
                     <button key={link.label} className={`flex items-center ${navLinkClasses(link.page as Page)}`} onClick={(e) => handleNavClick(e, link.page as Page)}>
                         {link.label}
-                        {link.icon && <span className="material-icons-outlined text-base ml-1">{link.icon}</span>}
                     </button>
                 );
             })}
