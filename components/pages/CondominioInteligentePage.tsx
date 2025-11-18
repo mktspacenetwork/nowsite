@@ -143,7 +143,15 @@ const CondominioInteligentePage: React.FC<CondominioInteligentePageProps> = ({ s
                     <h2 className="text-3xl md:text-4xl font-bold text-text-light-primary dark:text-text-dark-primary">{t('condominioInteligentePage.socialProof.title')}</h2>
                     <p className="text-lg text-text-light-secondary dark:text-text-dark-secondary mt-4 mb-8 max-w-2xl mx-auto font-semibold">{t('condominioInteligentePage.socialProof.subtitle')}</p>
                     <div className="aspect-video bg-gray-300 dark:bg-gray-700 rounded-lg max-w-4xl mx-auto flex items-center justify-center video-container">
-                        <span className="material-icons-outlined text-6xl text-gray-500">play_circle_outline</span>
+                        <iframe 
+                            className="w-full h-full rounded-lg"
+                            src="https://www.youtube.com/embed/PL_tYcp84Qc?autoplay=0&modestbranding=1&rel=0" 
+                            title="YouTube video player" 
+                            frameBorder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            referrerPolicy="strict-origin-when-cross-origin" 
+                            allowFullScreen
+                        ></iframe>
                     </div>
                     <a href="#diferencial" className="mt-8 inline-block bg-primary/80 text-white px-8 py-3 rounded-full font-medium transition-all hover:bg-primary active:scale-95 cta-button-secondary">
                         {t('condominioInteligentePage.socialProof.cta')}
