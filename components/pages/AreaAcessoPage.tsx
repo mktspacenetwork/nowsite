@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import useOnScreen from '../../hooks/useOnScreen';
 import { useLanguage } from '../../contexts/LanguageContext';
+import CTA from '../CTA';
 
 const AreaAcessoPage: React.FC = () => {
     const { t } = useLanguage();
@@ -36,20 +37,25 @@ const AreaAcessoPage: React.FC = () => {
                 <div className="container mx-auto px-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         {products.map((product, index) => (
-                            <div key={index} className={`bg-white dark:bg-surface-dark rounded-lg shadow-lg overflow-hidden transition-all duration-700 ease-out transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: `${150 * (index + 1)}ms` }}>
-                                <img src={product.imgSrc} alt={product.title} className="w-full h-56 object-cover" />
-                                <div className="p-8">
-                                    <div className="inline-block p-3 bg-primary/10 rounded-lg mb-4">
-                                        <span className="material-icons-outlined text-3xl text-primary">{product.icon}</span>
+                            <div 
+                                key={index} 
+                                className={`relative rounded-lg overflow-hidden group h-96 md:h-auto md:aspect-square transition-all duration-700 ease-out transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                                style={{ transitionDelay: `${150 * (index + 1)}ms` }}
+                            >
+                                <img alt={product.title} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300" src={product.imgSrc} />
+                                <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-end p-8 text-white text-left">
+                                    <div className="w-14 h-14 bg-primary/80 rounded-lg flex items-center justify-center mb-4 backdrop-blur-sm">
+                                        <span className="material-icons-outlined text-4xl">{product.icon}</span>
                                     </div>
-                                    <h3 className="text-2xl font-bold mb-3">{product.title}</h3>
-                                    <p className="text-text-light-secondary dark:text-text-dark-secondary">{product.description}</p>
+                                    <h3 className="text-3xl font-bold mb-2">{product.title}</h3>
+                                    <p>{product.description}</p>
                                 </div>
                             </div>
                         ))}
                     </div>
                 </div>
             </section>
+            <CTA />
         </>
     );
 };
