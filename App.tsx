@@ -13,8 +13,9 @@ import AreaExternaPage from './components/pages/AreaExternaPage';
 import AreaInternaPage from './components/pages/AreaInternaPage';
 import FacilitiesPage from './components/pages/FacilitiesPage';
 import SolucoesSobMedidaPage from './components/pages/SolucoesSobMedidaPage';
+import CondominioInteligentePage from './components/pages/CondominioInteligentePage';
 
-export type Page = 'home' | 'quem-somos' | 'contato' | 'solucoes' | 'area-acesso' | 'area-externa' | 'area-interna' | 'facilities' | 'solucoes-sob-medida';
+export type Page = 'home' | 'quem-somos' | 'contato' | 'solucoes' | 'area-acesso' | 'area-externa' | 'area-interna' | 'facilities' | 'solucoes-sob-medida' | 'condominio-inteligente';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -40,6 +41,8 @@ const App: React.FC = () => {
         return <FacilitiesPage />;
       case 'solucoes-sob-medida':
         return <SolucoesSobMedidaPage />;
+      case 'condominio-inteligente':
+        return <CondominioInteligentePage />;
       default:
         return <HomePage />;
     }

@@ -34,7 +34,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage }) => {
 
     const navLinks = [
         { page: 'home', label: t('nav.home') },
-        { page: 'home', label: t('nav.smartCondo') },
+        { page: 'condominio-inteligente', label: t('nav.smartCondo') },
         { page: 'solucoes', label: t('nav.solutions'), icon: 'expand_more' },
         { page: 'quem-somos', label: t('nav.about') },
         { page: 'contato', label: t('nav.contact') },
