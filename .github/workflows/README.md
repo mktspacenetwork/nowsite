@@ -1,60 +1,63 @@
-# Deploy automático via GitHub Actions
+# Deploy automático via GitHub Actions (self-hosted runner)
 
-Este workflow (`deploy.yml`) faz **build e deploy automático** do site para o servidor de produção sempre que houver um push na branch `main` (ou execução manual via "Run workflow").
+Este workflow (`deploy.yml`) faz **build e deploy automático** do site sempre que houver um push na branch `main` (ou execução manual via "Run workflow"). Ele roda em um **self-hosted runner** instalado no próprio servidor de produção, então:
+
+- **Não exige portas abertas** no servidor (o runner só faz conexões de saída para o GitHub).
+- **Não exige Secrets** de SSH/chaves.
+- **Build acontece no próprio servidor**, com acesso direto a `/var/www/nowsite` e ao `systemctl`.
 
 ## Como funciona
 
-1. O runner do GitHub faz checkout do repositório.
-2. Instala dependências e executa `npm run build`.
-3. Envia o conteúdo de `dist/` para o servidor via `rsync` sobre SSH (com `--delete`, ou seja, arquivos antigos são removidos do destino).
-4. No servidor: ajusta permissões (`www-data:www-data`, `755`) e recarrega o nginx.
+1. Push na `main` → GitHub agenda o job → o runner local pega o job.
+2. `actions/checkout@v4` clona o repo em `/opt/actions-runner/_work/nowsite/nowsite`.
+3. `actions/setup-node@v4` provisiona o Node.js 20 (com cache de `npm`).
+4. `npm ci` e `npm run build`.
+5. `rsync -a --delete dist/ /var/www/nowsite/`, ajusta `chown www-data:www-data` e `chmod 755`.
+6. `nginx -t && systemctl reload nginx`.
 
-## Secrets necessários
+## Onde o runner está instalado
 
-Cadastre em **Settings → Secrets and variables → Actions → New repository secret**:
+- **Diretório**: `/opt/actions-runner`
+- **Serviço systemd**: `actions.runner.mktspacenetwork-nowsite.nowsite-prod.service`
+- **Nome no GitHub**: `nowsite-prod` (labels: `self-hosted`, `linux`, `x64`, `nowsite-prod`)
 
-| Secret              | Valor                                                                                                  |
-| ------------------- | ------------------------------------------------------------------------------------------------------ |
-| `SSH_HOST`          | Hostname público (DNS) ou IP do servidor de produção (ex.: `deploy.seudominio.com.br`)                  |
-| `SSH_PORT`          | Porta SSH do servidor (no servidor atual: `6422`)                                                       |
-| `SSH_USER`          | Usuário SSH com permissão de escrever em `/var/www/nowsite` e recarregar nginx (atualmente `root`)      |
-| `SSH_PRIVATE_KEY`   | Conteúdo da chave **privada** Ed25519 gerada no servidor (`~/.ssh/github_actions_deploy`)               |
-| `SSH_KNOWN_HOSTS`   | Saída de `ssh-keyscan -p <PORT> -H <SSH_HOST>` executado em uma máquina confiável                       |
-| `DEPLOY_PATH`       | Caminho de destino no servidor: `/var/www/nowsite`                                                       |
-
-## Como obter cada secret
-
-### 1. `SSH_HOST` e `SSH_PORT`
-Use o hostname/IP **público** do servidor e a porta em que o `sshd` está exposto (ver `/etc/ssh/sshd_config`). Neste servidor o SSH escuta em `0.0.0.0:6422`. Se o servidor está atrás de NAT/Cloudflare, garanta que essa porta esteja acessível pela internet (ou exponha via outro mecanismo, ex. Cloudflare Tunnel + Access).
-
-### 2. `SSH_USER`
-Usuário com permissão para escrever em `/var/www/nowsite`, fazer `chown www-data` e `systemctl reload nginx`. Para simplificar, usamos `root`; recomenda-se criar um usuário dedicado com `sudo` sem senha para esses comandos específicos em produção.
-
-### 3. `SSH_PRIVATE_KEY`
-Foi gerada uma chave dedicada em `~/.ssh/github_actions_deploy` (Ed25519). Copie o **conteúdo inteiro** do arquivo (incluindo as linhas `-----BEGIN ...-----` e `-----END ...-----`) e cole no secret:
+### Comandos úteis para administrar o runner
 
 ```bash
-cat ~/.ssh/github_actions_deploy
+# Status do serviço
+systemctl status actions.runner.mktspacenetwork-nowsite.nowsite-prod.service
+
+# Reiniciar o runner
+systemctl restart actions.runner.mktspacenetwork-nowsite.nowsite-prod.service
+
+# Ver logs em tempo real
+journalctl -u actions.runner.mktspacenetwork-nowsite.nowsite-prod.service -f
+
+# Logs do runner (worker)
+ls /opt/actions-runner/_diag/
 ```
 
-A chave pública já foi adicionada ao `~/.ssh/authorized_keys` do `root` no servidor.
+### Reinstalar / remover o runner
 
-### 4. `SSH_KNOWN_HOSTS`
-Gere assim (substitua host e porta):
+Para desregistrar e remover (rodando como `root`):
 
 ```bash
-ssh-keyscan -p 6422 -H <SSH_HOST_PUBLICO> 2>/dev/null
+cd /opt/actions-runner
+./svc.sh stop
+./svc.sh uninstall
+# Gere um remove-token em: Settings > Actions > Runners > nowsite-prod > ... > Remove
+RUNNER_ALLOW_RUNASROOT=1 ./config.sh remove --token <REMOVE_TOKEN>
 ```
-
-Cole **todas as linhas retornadas** no secret. Isso evita avisos de "host fingerprint" e protege contra MITM.
-
-### 5. `DEPLOY_PATH`
-Caminho absoluto no servidor onde o nginx serve os arquivos. Neste projeto: `/var/www/nowsite`.
 
 ## Disparando o workflow manualmente
 
-Após o push, vá em **Actions → Deploy to Production → Run workflow** para forçar um deploy sem precisar de novo commit.
+Vá em **Actions → Deploy to Production → Run workflow** para forçar um deploy sem precisar de um novo commit.
 
 ## Substituindo o `deploy.sh`
 
-O script `deploy.sh` continua válido para execução manual no servidor, mas a partir da configuração deste workflow ele deixa de ser necessário no fluxo normal — todo push para `main` já dispara o deploy.
+O script `deploy.sh` continua válido para deploy manual no servidor, mas a partir desta automação ele não é mais necessário no fluxo normal — todo push para `main` já dispara o deploy.
+
+## Segurança
+
+- **Não habilite este runner para receber jobs de pull requests externos** (forks). Self-hosted runners executam código arbitrário com privilégios de root neste servidor. Mantenha o repositório privado e/ou desative builds de PRs vindos de forks.
+- O runner está configurado para rodar como `root` (`RUNNER_ALLOW_RUNASROOT=1`) porque o deploy precisa escrever em `/var/www`, fazer `chown www-data` e `systemctl reload nginx`. Em ambientes mais sensíveis, considere criar um usuário dedicado com `sudoers` restrito a esses comandos.

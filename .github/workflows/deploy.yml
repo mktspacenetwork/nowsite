@@ -11,9 +11,9 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
-    name: Build and deploy to server
-    runs-on: ubuntu-latest
+  deploy:
+    name: Build and deploy on server
+    runs-on: [self-hosted, nowsite-prod]
 
     steps:
       - name: Checkout repository
@@ -31,41 +31,16 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Configure SSH
+      - name: Publish build to nginx web root
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+          DEPLOY_PATH: /var/www/nowsite
         run: |
-          mkdir -p ~/.ssh
-          chmod 700 ~/.ssh
-          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-          chmod 644 ~/.ssh/known_hosts
+          mkdir -p "${DEPLOY_PATH}"
+          rsync -a --delete dist/ "${DEPLOY_PATH}/"
+          chown -R www-data:www-data "${DEPLOY_PATH}"
+          chmod -R 755 "${DEPLOY_PATH}"
 
-      - name: Sync build artifacts to server
-        env:
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_PORT: ${{ secrets.SSH_PORT }}
-          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+      - name: Validate and reload nginx
         run: |
-          rsync -avz --delete \
-            -e "ssh -i ~/.ssh/deploy_key -p ${SSH_PORT}" \
-            dist/ "${SSH_USER}@${SSH_HOST}:${DEPLOY_PATH}/"
-
-      - name: Fix permissions and reload nginx
-        env:
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_PORT: ${{ secrets.SSH_PORT }}
-          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
-        run: |
-          ssh -i ~/.ssh/deploy_key -p "${SSH_PORT}" "${SSH_USER}@${SSH_HOST}" \
-            "chown -R www-data:www-data '${DEPLOY_PATH}' && \
-             chmod -R 755 '${DEPLOY_PATH}' && \
-             nginx -t && systemctl reload nginx"
-
-      - name: Cleanup SSH key
-        if: always()
-        run: rm -f ~/.ssh/deploy_key
+          nginx -t
+          systemctl reload nginx
