@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nowsolucoes.com.br/sitemap.xml
