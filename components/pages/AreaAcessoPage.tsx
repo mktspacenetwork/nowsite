@@ -9,10 +9,10 @@ const AreaAcessoPage: React.FC = () => {
     const isVisible = useOnScreen(introRef, { threshold: 0.1 });
 
     const products = [
-        { icon: 'directions_car', title: t('areaAcessoPage.products.p1.title'), description: t('areaAcessoPage.products.p1.description'), imgSrc: 'https://raw.githubusercontent.com/mktspacenetwork/nowsite/main/public/images/rfid.jpeg' },
-        { icon: 'qr_code_2', title: t('areaAcessoPage.products.p2.title'), description: t('areaAcessoPage.products.p2.description'), imgSrc: 'https://raw.githubusercontent.com/mktspacenetwork/nowsite/main/public/images/qrcode.jpeg' },
+        { icon: 'directions_car', title: t('areaAcessoPage.products.p1.title'), description: t('areaAcessoPage.products.p1.description'), imgSrc: '/images/rfid.jpeg' },
+        { icon: 'qr_code_2', title: t('areaAcessoPage.products.p2.title'), description: t('areaAcessoPage.products.p2.description'), imgSrc: '/images/qrcode.jpeg' },
         { icon: 'face', title: t('areaAcessoPage.products.p3.title'), description: t('areaAcessoPage.products.p3.description'), imgSrc: 'https://i.ibb.co/Gf3CrHK4/now-detetecao-facial.jpg' },
-        { icon: 'tablet_mac', title: t('areaAcessoPage.products.p4.title'), description: t('areaAcessoPage.products.p4.description'), imgSrc: 'https://raw.githubusercontent.com/mktspacenetwork/nowsite/main/public/images/tabletportaria.jpeg' },
+        { icon: 'tablet_mac', title: t('areaAcessoPage.products.p4.title'), description: t('areaAcessoPage.products.p4.description'), imgSrc: '/images/tabletportaria.jpeg' },
     ];
 
     return (

@@ -9,9 +9,9 @@ const AreaExternaPage: React.FC = () => {
     const isVisible = useOnScreen(introRef, { threshold: 0.1 });
 
     const products = [
-        { icon: 'fence', title: t('areaExternaPage.products.p1.title'), description: t('areaExternaPage.products.p1.description'), imgSrc: 'https://raw.githubusercontent.com/mktspacenetwork/nowsite/main/public/images/piscina.png' },
-        { icon: 'pin', title: t('areaExternaPage.products.p2.title'), description: t('areaExternaPage.products.p2.description'), imgSrc: 'https://raw.githubusercontent.com/mktspacenetwork/nowsite/main/public/images/leituraplacacarro.png' },
-        { icon: 'thermostat', title: t('areaExternaPage.products.p3.title'), description: t('areaExternaPage.products.p3.description'), imgSrc: 'https://raw.githubusercontent.com/mktspacenetwork/nowsite/main/public/images/visaotermica.png' },
+        { icon: 'fence', title: t('areaExternaPage.products.p1.title'), description: t('areaExternaPage.products.p1.description'), imgSrc: '/images/piscina.png' },
+        { icon: 'pin', title: t('areaExternaPage.products.p2.title'), description: t('areaExternaPage.products.p2.description'), imgSrc: '/images/leituraplacacarro.png' },
+        { icon: 'thermostat', title: t('areaExternaPage.products.p3.title'), description: t('areaExternaPage.products.p3.description'), imgSrc: '/images/visaotermica.png' },
     ];
 
     return (
