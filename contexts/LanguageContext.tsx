@@ -46,7 +46,11 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
     };
 
     useEffect(() => {
-        document.documentElement.lang = language.split('-')[0];
+        // Set full BCP-47 locale (e.g. pt-BR, en-US)
+        document.documentElement.lang = language;
+        // Update og:locale dynamically (uses underscore format: pt_BR)
+        const ogLocale = document.querySelector('meta[property="og:locale"]');
+        if (ogLocale) ogLocale.setAttribute('content', language.replace('-', '_'));
     }, [language]);
 
 

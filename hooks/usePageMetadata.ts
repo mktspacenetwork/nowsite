@@ -31,10 +31,12 @@ const usePageMetadata = (page: Page) => {
         setMeta('meta[property="og:title"]', 'content', title);
         setMeta('meta[property="og:description"]', 'content', description);
         setMeta('meta[property="og:url"]', 'content', url);
+        setMeta('meta[property="og:image:alt"]', 'content', title);
 
         // Twitter Card
         setMeta('meta[name="twitter:title"]', 'content', title);
         setMeta('meta[name="twitter:description"]', 'content', description);
+        setMeta('meta[name="twitter:image:alt"]', 'content', title);
 
         // Canonical URL
         let canonical = document.querySelector('link[rel="canonical"]');
