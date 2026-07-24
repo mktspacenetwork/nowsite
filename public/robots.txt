@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /novosite/
 
 Sitemap: https://nowsolucoes.com.br/sitemap.xml
