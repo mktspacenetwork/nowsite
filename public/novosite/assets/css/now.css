@@ -17,7 +17,7 @@
   --surface-solid: #1d1c1c;
   --paper:      #f8f8f8;
   --paper-dim:  #b9b9bc;
-  --muted:      #7e7e84;
+  --muted:      #8a8a91;   /* era #7e7e84: 4,2:1 nos rótulos de 11px do formulário */
 
   --blue:        #3979aa;
   --blue-signal: #0e8fec;
@@ -43,10 +43,27 @@
   --dur: .45s;
 
   --container: 1180px;
+
+  /* Ritmo vertical. Assimétrico de propósito: a base de uma seção é
+     menor que o topo da seguinte, então o olho é puxado para baixo em
+     vez de parar num vão simétrico. Um único par de valores para o
+     site inteiro — era 120/120 nas internas e 88/88 na Home, o que
+     fazia cada página respirar de um jeito. */
+  --ritmo-topo: 92px;
+  --ritmo-base: 76px;
 }
 
 *{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:auto;} /* rolagem controlada por JS (lerp) */
+/* `overflow-x:hidden` só no body não segurava: o html continuava
+   `visible` e o estouro subia pro viewport — a Home rolava 724px pro
+   lado (as colunas de "Onde aplicamos" partem de translateX(±70vw)).
+   `clip` corta sem criar contêiner de rolagem; o hidden fica de reserva
+   para navegadores sem suporte. */
+html{
+  scroll-behavior:auto; /* rolagem controlada por JS (lerp) */
+  overflow-x: hidden;
+  overflow-x: clip;
+}
 body{
   background: var(--ink);
   color: var(--paper);
@@ -55,6 +72,7 @@ body{
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  overflow-x: clip;
   position: relative;
 }
 body::before{
@@ -102,6 +120,26 @@ a{color:inherit;text-decoration:none;}
   box-shadow: 0 0 8px var(--blue-glow);
   animation: pulse 2.4s ease-in-out infinite;
 }
+
+/* --- fio conector entre seções ---
+   O vão entre um bloco e o seguinte estava vazio, e página nenhuma
+   dizia que os blocos pertencem à mesma história: cada seção parecia
+   uma laje solta. O fio desce do bloco anterior e termina no ponto do
+   rótulo da seção seguinte, que já existia. É o mesmo traço da planta
+   técnica do hero (mesma cor, mesmo tracejado), agora costurando a
+   leitura. Some no mobile, onde o vão já é curto e a coluna é estreita.
+   A âncora é o próprio .eyebrow, então o fio se alinha ao ponto em
+   qualquer largura, sem depender da medida do contêiner. */
+main > section + section .eyebrow{ position: relative; }
+main > section + section .eyebrow::before{
+  content:"";
+  position:absolute; bottom:100%; left:13px;
+  width:1px; height: calc(var(--ritmo-topo) - 26px);
+  background: linear-gradient(180deg, transparent, var(--line-blue) 62%, var(--blue-signal));
+  opacity:.85;
+  pointer-events:none;
+}
+@media (max-width: 860px){ main > section + section .eyebrow::before{ display:none; } }
 @keyframes pulse{ 0%,100%{opacity:1; transform:scale(1);} 50%{opacity:.45; transform:scale(.8);} }
 
 .section-head{ max-width: 660px; margin-bottom: 64px; }
@@ -125,7 +163,7 @@ a{color:inherit;text-decoration:none;}
   text-shadow: 0 0 24px rgba(14,143,236,.35);
 }
 
-section{ position: relative; padding: 120px 0; }
+section{ position: relative; padding: var(--ritmo-topo) 0 var(--ritmo-base); }
 section + section::before, footer::before{
   content:"";
   position:absolute; top:0; left:50%; transform:translateX(-50%);
@@ -138,7 +176,7 @@ section + section::before, footer::before{
   display:block;
 }
 footer::before{ display:block; }
-@media (max-width: 720px){ section{ padding: 80px 0; } }
+@media (max-width: 720px){ :root{ --ritmo-topo: 64px; --ritmo-base: 52px; } }
 
 /* ---------- reveal orquestrado ---------- */
 .reveal{ opacity:0; transform: translateY(28px); transition: opacity .9s var(--ease-out), transform .9s var(--ease-out); }
@@ -205,13 +243,26 @@ footer::before{ display:block; }
 /* ============================================================
    NAV
    ============================================================ */
+/* A nav é um elemento de chrome permanentemente escuro, em TODAS as
+   páginas e nos dois temas — mesma decisão da Home. Só os dropdowns
+   (.subnav) e o menu mobile seguem o toggle claro/escuro. */
 .topnav{
   position: sticky; top:0; z-index: 50;
   backdrop-filter: blur(18px) saturate(1.2);
-  background: rgba(8,8,10,.6);
+  background: rgba(6,8,14,.82);
   border-bottom: 1px solid var(--line);
 }
-.topnav .wrap{ display:flex; align-items:center; justify-content:space-between; height: 66px; }
+.topnav .wrap{
+  display:grid; grid-template-columns: auto 1fr auto;
+  align-items:center; gap:24px; height: 66px;
+}
+@media (max-width: 980px){
+  .topnav .wrap{ grid-template-columns: auto auto; justify-content:space-between; }
+}
+.topnav .brand-logo.on-dark{ display:block !important; }
+.topnav .brand-logo.on-light{ display:none !important; }
+.topnav .theme-toggle{ color:#fff; }
+.topnav .menu-btn{ color:#fff; border-color: rgba(255,255,255,.2); background: rgba(255,255,255,.04); }
 .brand{ display:flex; align-items:center; gap:11px; font-family: var(--font-accent); font-weight:600; font-size:13.5px; letter-spacing:.04em; }
 .brand .mark{ width:22px; height:22px; filter: drop-shadow(0 0 6px rgba(14,143,236,.4)); }
 .brand-logo{ height:36px; width:auto; display:block; background:none; border:none; box-shadow:none; filter:none; }
@@ -223,11 +274,49 @@ html[data-theme="light"] .brand-logo.on-light{ display:block; }
 html[data-theme="light"] .panel-dark .brand-logo.on-dark{ display:block; }
 html[data-theme="light"] .panel-dark .brand-logo.on-light{ display:none; }
 .foot-brand .brand-logo{ height:38px; }
-.navlinks{ display:flex; gap:4px; font-size:13.5px; color:var(--paper-dim); align-items:center; }
+.navlinks{ display:flex; gap:2px; font-size:13.5px; color:var(--paper-dim); align-items:center; }
 .navlinks a{ padding: 8px 14px; border-radius: var(--r-pill); transition: color .25s ease, background .25s ease; }
 .navlinks a:hover{ color: var(--paper); background: rgba(248,248,248,.06); }
 .navlinks a[aria-current="page"]{ color: var(--paper); }
 @media (max-width: 980px){ .navlinks{ display:none; } }
+
+/* cápsula "liquid glass" dos links — a mesma da Home, agora o padrão do
+   site inteiro. Sempre escura, nos dois temas. */
+.topnav .navlinks{
+  justify-self:center;
+  position:relative;
+  isolation:isolate;
+  background: rgba(16,16,20,.62);
+  border: none;
+  border-radius: var(--r-pill);
+  backdrop-filter: blur(15px) saturate(1.7) brightness(1.04);
+  -webkit-backdrop-filter: blur(15px) saturate(1.7) brightness(1.04);
+  box-shadow:
+    inset 0 1.5px 1px -0.5px rgba(255,255,255,.4),
+    inset 0 -1px 1px -0.5px rgba(255,255,255,.1),
+    inset 0 0 0 1px rgba(255,255,255,.07),
+    0 8px 30px -12px rgba(0,0,0,.55),
+    0 2px 6px -3px rgba(0,0,0,.42);
+  padding: 5px;
+}
+/* brilho especular diagonal, a assinatura do vidro */
+.topnav .navlinks::after{
+  content:"";
+  position:absolute; inset:0; border-radius:inherit; z-index:0;
+  background: linear-gradient(118deg,
+    rgba(255,255,255,.16) 0%, rgba(255,255,255,.04) 16%,
+    transparent 40%, transparent 100%);
+  mix-blend-mode: screen;
+  opacity:.6;
+  pointer-events:none;
+}
+.topnav .navlinks > a,
+.topnav .navlinks .nav-item{ position:relative; z-index:1; }
+.topnav .navlinks > a:not([aria-current="page"]),
+.topnav .navlinks .nav-item > a{ color: rgba(248,248,248,.72); }
+.topnav .navlinks > a:hover,
+.topnav .navlinks .nav-item > a:hover{ color:#fff; background: rgba(248,248,248,.08); }
+.topnav .navlinks a[aria-current="page"]{ background:#f8f8f8; color:#08080a; }
 
 /* dropdown "Onde Aplicamos" (mesma linguagem do vidro) */
 .nav-item{ position:relative; }
@@ -251,7 +340,12 @@ html[data-theme="light"] .panel-dark .brand-logo.on-light{ display:none; }
 .subnav a small{ display:block; font-family: var(--font-accent); font-size:10.5px; color: var(--muted); letter-spacing:.03em; margin-top:2px; }
 html[data-theme="light"] .subnav{ background: rgba(250,250,251,.97); }
 
-.nav-right{ display:flex; align-items:center; }
+.nav-right{ display:flex; align-items:center; gap:14px; }
+.topnav .nav-right > *{ margin-left:0; }
+/* ordem visual: CTA, tema, hambúrguer — igual à Home */
+.topnav .nav-right .nav-cta{ order:1; }
+.topnav .nav-right .theme-toggle{ order:2; }
+.topnav .nav-right .menu-btn{ order:3; }
 .btn.nav-cta{ margin-left: 12px; padding: 8px 16px; font-size: 12.5px; }
 @media (max-width: 980px){ .btn.nav-cta, .topnav .nav-cta{ display:none; } }
 
@@ -273,7 +367,7 @@ html[data-theme="light"] .subnav{ background: rgba(250,250,251,.97); }
   background: rgba(248,248,248,.07);
   transform: translateY(-1px);
 }
-html[data-theme="light"] .theme-toggle:hover{ background: rgba(20,20,24,.06); }
+/* (o toggle vive na nav sempre-escura; hover claro não se aplica) */
 .theme-toggle svg{ width:15px; height:15px; transition: transform .55s var(--ease-spring); }
 .theme-toggle:active svg{ transform: rotate(140deg) scale(.9); }
 .theme-toggle .sun{ display:none; }
@@ -620,9 +714,16 @@ body.no-intro .bp-draw{ animation: draw 3.2s var(--ease-out) forwards .4s; }
   text-transform:uppercase; color:var(--blue-signal); margin-bottom:10px; display:block;
 }
 
-/* fallback: se a imagem não carregar, o gradiente técnico segura */
+/* Fallback de imagem. Precisa ficar em background-COLOR: todo uso real
+   traz a foto num `style="background-image:url(...)"` inline, que
+   sobrescreve qualquer background-image declarado aqui — então o
+   gradiente sozinho nunca chegava a aparecer. A cor fica embaixo da
+   imagem e só reaparece se a foto falhar. Escura nos dois temas de
+   propósito: todo .img-fallback deste site ou recebe texto claro por
+   cima ou vive dentro de um bloco escuro. */
 .img-fallback{
-  background:
+  background-color: #0c1622;
+  background-image:
     radial-gradient(ellipse at 30% 20%, rgba(14,143,236,.28), transparent 55%),
     radial-gradient(ellipse at 80% 80%, rgba(57,121,170,.3), transparent 50%),
     linear-gradient(160deg, #0c1622, #08080a);
@@ -830,7 +931,7 @@ body.no-intro .bp-draw{ animation: draw 3.2s var(--ease-out) forwards .4s; }
   --surface-solid: #1d1c1c;
   --paper:      #f8f8f8;
   --paper-dim:  #b9b9bc;
-  --muted:      #7e7e84;
+  --muted:      #8a8a91;
   --blue-glow:  rgba(14,143,236,.45);
   --blue-soft:  rgba(14,143,236,.08);
   --line:        rgba(248,248,248,.08);
@@ -969,8 +1070,12 @@ html:not([data-theme="light"]) .panel-light .destaque{
 .hero-slide.is-active .stagger > *:nth-child(4){ transition-delay:.45s; }
 .hero-slide.is-active .stagger > *:nth-child(5){ transition-delay:.55s; }
 
-/* navegação do carrossel do hero */
-.hero-dots{ position:absolute; left:60px; bottom:26px; z-index:3; display:flex; gap:9px; }
+/* navegação do carrossel do hero — canto inferior direito, alinhada ao
+   fundo real dos botões de CTA. hero-inner é ancorado embaixo por flex
+   (align-items:flex-end em .hero-slide), então sua borda inferior fica
+   sempre exatamente a padding-bottom (60px) do fundo do card — o mesmo
+   valor vira o "bottom" dos pontos, em vez de um número arbitrário. */
+.hero-dots{ position:absolute; right:60px; bottom:60px; z-index:3; display:flex; gap:9px; }
 .hero-dots button{
   width:22px; height:3px; border-radius:2px; border:none; cursor:pointer;
   background: rgba(248,248,248,.3); padding:0;
@@ -983,10 +1088,26 @@ html:not([data-theme="light"]) .panel-light .destaque{
   .hero-card{ border-radius: 22px; height: 600px; min-height:600px; }
   .hero-slide{ padding: 30px 24px; }
   .hero-blueprint{ display:none; }
-  .hero-dots{ left:24px; bottom:18px; }
+  .hero-dots{ right:24px; bottom:30px; } /* mesmo padding vertical do .hero-slide mobile */
 }
 @media (prefers-reduced-motion: reduce){
   .hero-slide.is-active .hero-photo{ animation:none; }
+}
+
+/* ============================================================
+   HERO EM MOLDURA — VERSÃO DAS PÁGINAS INTERNAS
+   Mesma linguagem do hero da Home (cartão arredondado, foto,
+   scrim, texto ancorado na base), um degrau menor na escala.
+   Um slide só, sem carrossel nem blueprint.
+   ============================================================ */
+.hero-framed-sub .hero-card{ height: 480px; min-height: 480px; }
+.hero-framed-sub .hero-slide{ padding: 48px; }
+.hero-framed-sub .hero-card h1{ font-size: clamp(28px, 3.4vw, 44px); }
+.hero-framed-sub .hero-card .sub{ font-size: 15.5px; max-width: 54ch; }
+.hero-framed-sub .hero-card .fine-note{ margin-top: 18px; }
+@media (max-width: 720px){
+  .hero-framed-sub .hero-card{ height: 560px; min-height: 560px; }
+  .hero-framed-sub .hero-slide{ padding: 26px 22px; }
 }
 
 /* ============================================================
@@ -1052,10 +1173,7 @@ body.home .topnav.scrolled::after{ opacity:1; }
    da Home não segue o toggle claro/escuro, é um elemento de chrome
    permanentemente escuro sobre o hero. */
 
-body.home .topnav .wrap{
-  display:grid; grid-template-columns: auto 1fr auto;
-  align-items:center; gap:24px;
-}
+/* (o grid do .wrap e a cápsula dos links agora são globais — ver NAV) */
 /* logotipo alinhado ao mesmo respiro do texto do hero (padding
    interno de 60px do hero-slide), não ao padding padrão do .wrap —
    escopado só à nav, pra não vazar pro logo do rodapé (mesma classe) */
@@ -1068,31 +1186,28 @@ body.home .topnav .brand{ margin-left:60px; }
    "linha" dura visível. O fundo é um tom fixo (não var(--surface),
    que mudaria com o tema) — evita também o flash claro/escuro que
    uma interpolação de cor teria ao cruzar o estado solto/rolado. */
-body.home .navlinks{
-  justify-self:center;
-  position:relative;
-  background: rgba(20,20,23,.86);
-  border: none;
-  border-radius: var(--r-pill);
-  backdrop-filter: blur(16px) saturate(1.4); -webkit-backdrop-filter: blur(16px) saturate(1.4);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.09), 0 16px 40px -26px rgba(0,0,0,.55);
-  padding: 5px; gap:2px;
-  transition: box-shadow .5s var(--ease-out);
-}
+/* --- efeito "liquid glass" (aproximação do vidro da Apple) ---
+   três camadas somadas: (1) o backdrop-filter refrata a foto atrás
+   com muito saturate + um leve brightness, pra "levantar" a luz como
+   vidro de verdade; (2) rims especulares (box-shadow inset) no topo
+   bem forte e na base sutil — a luz que pega na curva do vidro; (3)
+   um brilho diagonal (::after) atravessando, a assinatura do vidro
+   molhado. O tom de fundo é baixo de propósito, pra deixar a foto
+   aparecer — a legibilidade vem dos rims + do blur, não da opacidade. */
+body.home .navlinks{ transition: box-shadow .5s var(--ease-out); }
+/* camada de luz do estado solto (some ao rolar) — agora um degradê
+   de cima pra baixo, luz "empoçando" no topo do vidro, não um chapado */
 body.home .navlinks::before{
   content:"";
-  position:absolute; inset:0; border-radius:inherit;
-  background: rgba(255,255,255,.1);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.14);
+  position:absolute; inset:0; border-radius:inherit; z-index:0;
+  background: linear-gradient(180deg,
+    rgba(255,255,255,.16) 0%, rgba(255,255,255,.05) 46%, rgba(255,255,255,.02) 100%);
   opacity:1;
   transition: opacity .5s var(--ease-out);
   pointer-events:none;
 }
 body.home .topnav.scrolled .navlinks::before{ opacity:0; }
-body.home .navlinks a[aria-current="page"]{
-  background:#f8f8f8; color:#08080a;
-  position:relative; z-index:1;
-}
+/* (brilho especular, z-index e pílula do aria-current agora são globais) */
 /* CTA com mesmo estilo do btn-primary do hero */
 body.home .nav-cta{
   background: linear-gradient(180deg, #23a0f5, var(--blue-signal));
@@ -1103,18 +1218,9 @@ body.home .nav-cta{
 body.home .nav-cta:hover{
   box-shadow: 0 16px 40px -10px rgba(14,143,236,.65), inset 0 1px 0 rgba(255,255,255,.35);
 }
-/* botões utilitários (tema + hambúrguer) num agrupamento discreto,
-   com respiro real da borda do card do hero — nunca colados nela */
-body.home .nav-right{ margin-right:40px; gap:16px; display:flex; align-items:center; }
-body.home .nav-right > *{ margin-left:0; }
-/* reordenar: CTA primeiro, theme-toggle depois, hambúrguer por último */
-body.home .nav-right .nav-cta{ order:1; }
-body.home .nav-right .theme-toggle{ order:2; margin-left: auto; }
-body.home .nav-right .menu-btn{ order:3; }
+/* botões utilitários com respiro real da borda do card do hero */
+body.home .nav-right{ margin-right:40px; gap:16px; }
 @media (max-width: 720px){ body.home .nav-right{ margin-right:20px; } }
-@media (max-width: 980px){
-  body.home .topnav .wrap{ grid-template-columns: auto auto; justify-content:space-between; }
-}
 
 /* --- nav da Home: sempre "modo escuro", em qualquer tema e em
    qualquer estado (solta sobre o hero OU fixa/rolada) --- a nav é um
@@ -1127,22 +1233,11 @@ body.home .nav-right .menu-btn{ order:3; }
    tema normal do site, então o texto deles não pode ser forçado
    claro também (ficaria ilegível no tema claro, texto claro sobre
    fundo claro). */
-body.home .topnav .navlinks > a:not([aria-current="page"]),
-body.home .topnav .navlinks .nav-item > a{ color: rgba(248,248,248,.72); }
-body.home .topnav .navlinks > a:hover,
-body.home .topnav .navlinks .nav-item > a:hover{ color:#fff; background: rgba(248,248,248,.08); }
-body.home .topnav:not(.scrolled) .nav-cta{
-  background: rgba(14,143,236,.24) !important;
-  color:#fff !important;
-}
-body.home .topnav .theme-toggle{ color:#fff; }
-body.home .topnav .menu-btn{
-  color:#fff; border-color: rgba(255,255,255,.2); background: rgba(255,255,255,.04);
-}
-/* logotipo: sempre a versão clara (branca), nos dois estados e nos
-   dois temas — a nav da Home nunca usa a versão escura da logo. */
-body.home .topnav .brand-logo.on-dark{ display:block !important; }
-body.home .topnav .brand-logo.on-light{ display:none !important; }
+/* CTA "Fale com um especialista": azul sólido sempre, solta sobre o
+   hero ou fixa/rolada — antes ficava translúcida (24% de opacidade)
+   enquanto solta, só virando sólida ao rolar. É o botão de conversão
+   principal do hero; não deve competir por atenção com o fundo. */
+/* (cores dos links, ícones e logotipo branco agora são globais) */
 
 /* ============================================================
    FAIXA DE LOGOS — marquee infinito, desliza da direita pra
@@ -1245,13 +1340,12 @@ body.home .topnav .brand-logo.on-light{ display:none !important; }
    Isolado por classe pra não afetar as outras 6 páginas, que
    seguem com a escala e o espaçamento originais do DS.
    ============================================================ */
-body.home section{ padding: 88px 0; }
-@media (max-width: 720px){ body.home section{ padding: 60px 0; } }
+/* a Home usa o mesmo ritmo do resto do site (ver --ritmo-topo/base) */
 body.home .section-head{ margin-bottom: 44px; }
 body.home .section-head h2{ font-size: clamp(24px, 3vw, 36px); line-height: 1.14; }
 body.home .section-head p{ font-size: 15px; }
 body.home footer h2{ font-size: clamp(24px, 3vw, 36px); }
-body.home #impacto{ padding-top: 104px; padding-bottom: 40px; }
+body.home #impacto{ padding-top: 92px; padding-bottom: 40px; }
 
 /* texto à esquerda, formulário à direita — CTA da Home e Contato */
 .split-form{ display:grid; grid-template-columns: 1fr 1.05fr; gap:56px; align-items:center; }
@@ -1329,7 +1423,7 @@ html[data-theme="light"] .field input, html[data-theme="light"] .field textarea{
 /* ============================================================
    FOOTER
    ============================================================ */
-footer{ padding: 110px 0 60px; position:relative; }
+footer{ padding: 76px 0 56px; position:relative; }
 .foot-grid{ display:flex; justify-content:space-between; align-items:flex-end; gap:40px; flex-wrap:wrap; }
 footer h2{
   font-size: clamp(30px,4.2vw,48px); font-weight:700;
@@ -1353,6 +1447,9 @@ footer a:hover::after{ width:100%; }
   display:grid; grid-template-columns: 1.3fr 1fr 1fr 1fr 1.2fr; gap: 32px;
   padding-top: 40px; border-top: 1px solid var(--line);
 }
+/* sem o h2 de tagline acima (o fecho azul da página assumiu esse papel),
+   as colunas abrem o rodapé direto, sem borda órfã */
+footer > .wrap > .foot-cols:first-child{ margin-top:0; padding-top:0; border-top:none; }
 @media (max-width: 980px){ .foot-cols{ grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px){ .foot-cols{ grid-template-columns: 1fr; } }
 .foot-brand{ display:flex; flex-direction:column; gap:14px; }
@@ -1417,7 +1514,13 @@ html[data-theme="light"]{
   --surface-solid: #ffffff;
   --paper:      #141416;
   --paper-dim:  #4b4b52;
-  --muted:      #75757d;
+  --muted:      #5f5f68;        /* era #75757d: 4,2:1 em textos de 12px */
+
+  /* o azul de tela não passa em fundo claro (3,1:1). Esta é a versão
+     escurecida usada em rótulos pequenos: eyebrow, th, títulos de
+     coluna do rodapé. O --blue-signal segue intacto para preenchimentos
+     e botões, onde o contraste não depende dele. */
+  --blue-rotulo: #0a6aae;
 
   --blue-glow:   rgba(14,143,236,.28);
   --blue-soft:   rgba(14,143,236,.07);
@@ -1446,6 +1549,19 @@ html[data-theme="light"] .destaque{
   color: #0b76c4; -webkit-text-fill-color:#0b76c4;
   text-shadow: 0 0 22px rgba(14,143,236,.22);
 }
+/* rótulos pequenos em azul sobre fundo claro (ver --blue-rotulo).
+   Ficam de fora os que vivem dentro de blocos escuros — painel azul,
+   cartão do hero, colunas de ambiente — onde o azul de tela é o certo. */
+html[data-theme="light"] .eyebrow:not(.panel-dark .eyebrow):not(.hero-card .eyebrow),
+html[data-theme="light"] .pricing th,
+html[data-theme="light"] .foot-col:not(.panel-dark .foot-col) h5,
+html[data-theme="light"] .media-partial .kicker,
+html[data-theme="light"] .media-side:not(.panel-dark .media-side) .kicker{
+  color: var(--blue-rotulo);
+}
+html[data-theme="light"] .eyebrow:not(.panel-dark .eyebrow):not(.hero-card .eyebrow){
+  border-color: rgba(10,106,174,.38);
+}
 html[data-theme="light"] .glass{
   box-shadow: inset 0 1px 0 var(--edge-hi), 0 18px 44px -28px rgba(20,20,30,.35);
 }
@@ -1453,10 +1569,9 @@ html[data-theme="light"] .glass::before{
   background: radial-gradient(420px circle at var(--mx,50%) var(--my,-30%),
               rgba(14,143,236,.10), transparent 65%);
 }
-/* só as outras 6 páginas — a nav da Home tem tratamento próprio,
-   sempre escuro, definido mais acima (não deve seguir o tema). */
-html[data-theme="light"] body:not(.home) .topnav{ background: rgba(248,248,250,.72); }
-html[data-theme="light"] .navlinks a:hover{ background: rgba(20,20,24,.06); }
+/* a nav é chrome permanentemente escuro em todas as páginas; no tema
+   claro só os dropdowns (.subnav) e o menu mobile clareiam. */
+html[data-theme="light"] .subnav a:hover{ background: rgba(20,20,24,.06); }
 html[data-theme="light"] .brand .mark path{ stroke:#141416; }
 html[data-theme="light"] .chip,
 html[data-theme="light"] .pill,
@@ -1495,12 +1610,8 @@ html[data-theme="light"] .media-side .img::after{
     background: linear-gradient(180deg, transparent 55%, rgba(255,255,255,.94));
   }
 }
-html[data-theme="light"] .img-fallback{
-  background:
-    radial-gradient(ellipse at 30% 20%, rgba(14,143,236,.30), transparent 55%),
-    radial-gradient(ellipse at 80% 80%, rgba(57,121,170,.28), transparent 50%),
-    linear-gradient(160deg, #cfe2f3, #eef1f5);
-}
+/* o fallback continua escuro no tema claro: o texto que corre por cima
+   dele (hero, colunas de ambiente, cards de mídia) é sempre claro. */
 html[data-theme="light"] .toast{
   background: rgba(20,20,24,.92); color:#f8f8f8;
   box-shadow: 0 12px 40px -12px rgba(20,20,30,.5);
@@ -1550,6 +1661,37 @@ html.theming, html.theming *, html.theming *::before, html.theming *::after{
   position:absolute; inset:0;
   background: linear-gradient(180deg, rgba(4,12,20,.55) 0%, rgba(4,12,20,.18) 24%, transparent 46%);
   pointer-events:none;
+}
+
+/* --- as bordas do painel azul emergem da página em vez de cortá-la ---
+   Antes o azul começava e terminava numa linha reta, e o resultado eram
+   duas lajes empilhadas com um vão morto entre elas. Agora o azul nasce
+   do fundo da página e volta pra ele, então a transição vira passagem.
+   Precisa vencer `section + section::before{display:none}` — a classe
+   ganha do seletor de tipo, então basta declarar display:block. */
+.panel-blue::before,
+.panel-blue::after{
+  content:""; display:block;
+  position:absolute; left:0; right:0;
+  height: 120px; z-index:0;
+  pointer-events:none;
+  transform:none; width:auto;
+}
+.panel-blue::before{
+  top:0;
+  background: linear-gradient(180deg, var(--ink) 0%, rgba(8,8,10,.55) 45%, transparent 100%);
+}
+.panel-blue::after{
+  bottom:0;
+  background: linear-gradient(0deg, var(--ink) 0%, rgba(8,8,10,.5) 45%, transparent 100%);
+}
+/* a página clara tem fundo próprio: o azul precisa nascer dele, não do preto */
+html[data-theme="light"] .panel-blue::before{
+  background: linear-gradient(180deg, #f4f4f6 0%, rgba(244,244,246,.5) 45%, transparent 100%);
+}
+/* embaixo o azul sempre encontra o rodapé escuro, então continua indo pro preto */
+@media (max-width: 720px){
+  .panel-blue::before, .panel-blue::after{ height: 84px; }
 }
 
 /* --- #diferenciais e #o-que-fazemos: mesmo bento grid ---
@@ -1781,8 +1923,6 @@ body.home #cta .cta-tagline{
   text-align: center;
 }
 body.home #cta .cta-tagline h2{ margin:0; }
-/* sem o .foot-grid antigo, o rodapé da Home abre direto nas colunas */
-body.home footer{ padding-top: 64px; }
 body.home .foot-cols{ margin-top:0; padding-top:0; border-top:none; }
 
 /* --- "Da portaria à cidade": título centralizado, sozinho --- */
